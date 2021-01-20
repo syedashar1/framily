@@ -6,8 +6,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch backend --exec node --experimental-modules server.js"
-  },
+    "start": "nodemon --exec node --experimental-modules server.js"
+  }, 
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -21,3 +21,4 @@
     "multer": "^1.4.2"
   }
 }
+ 

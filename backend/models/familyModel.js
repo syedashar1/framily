@@ -63,14 +63,15 @@ const familySchema = new mongoose.Schema(
         oursLiked : [String] ,
 
         Matched : [String] ,
+        forChat : [String] ,
 
-        newMatches : {type : Number , default : 0 } ,
+        newLikes : {type : Number , default : 0 } ,
 
         descriptions : {type:String , default : "this is description" } ,
 
         location : {type:String} ,
 
-  },
+  } ,
   {
         timestamps: true,
 }

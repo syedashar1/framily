@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout ,userDetails } from '../actions/userActions'
 import './navbar.css';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import PersonIcon from '@material-ui/icons/Person';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -36,10 +37,21 @@ class Navbar extends Component {
 
        { this.props.userInfo? (
         <div className="header__right">
+
+
+        
+      <IconButton>
+      <Link style={{color:'#6b6b6b'}}  to="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
+
+                                <span className="badge">3</span>
+        </Link>
+        
+      </IconButton>
+        
       <IconButton>
       <Link style={{color:'#6b6b6b'}}  to="/matches"><FavoriteIcon fontSize="large" className="heart__icon" />  
                                 {user && userInfo && user.newMatches !== 0 && !removeSuccess &&
-                                <span className="badge">{user.newMatches}</span>
+                                <span className="badge">{user.newLikes}</span>
         }  </Link>
         
       </IconButton>

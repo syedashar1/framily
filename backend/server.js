@@ -3,10 +3,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser' ;
 import familyRouter from './routes/familyRoutes.js';
 import dotenv from 'dotenv';
-import { isAuth } from './utils.js';
-import expressAsyncHandler from 'express-async-handler';
 import uploadRouter from './routes/uploadRouter.js'
-import path from 'path'
 dotenv.config();
 
 
@@ -27,7 +24,7 @@ mongoose.connect("mongodb+srv://ashar1:ashar1@cluster0.ybb8j.mongodb.net/amazona
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', familyRouter);
 
-
+ 
 
 
 

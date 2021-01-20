@@ -10,6 +10,8 @@ import userProfileScreen from './screens/userProfileScreen';
 
 import matchScreen from './screens/matchScreen';
 import Home from './screens/Home';
+import familyDetails from './screens/familyDetails';
+import chatScreen from './screens/chatScreen';
 
 
 class App extends React.Component {
@@ -39,6 +41,12 @@ class App extends React.Component {
                 <Route path="/profile" component={userProfileScreen} exact></Route>
                 <Route path="/signin" component={SignIn} exact></Route>
                 <Route path="/register" component={RegisterScreen}></Route>
+                <Route path="/families/:id" component={familyDetails}></Route>
+                <Route path="/chat" component={chatScreen}></Route>
+                <Route 
+                path="/filter/interestsdescription/:interestsdescription/min/:min/max/:max/ethinicity/:ethinicity"
+                component={HomeScreen} exact
+                ></Route>
 
                 
 

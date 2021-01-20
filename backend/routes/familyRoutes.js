@@ -7,6 +7,104 @@ import bcrypt from 'bcrypt'
 
 const familyRouter = express.Router();
 
+
+
+
+
+familyRouter.put( '/accept', expressAsyncHandler(async (req, res) => {
+  
+  console.log(req.body);
+
+  const liker = await Family.findById(req.body.liker);
+  const family = await Family.findById(req.body.family);
+
+
+  if(liker && family){
+
+
+    liker.forChat.push(req.body.family)
+    family.forChat.push(req.body.liker)
+
+    liker.oursLiked = liker.oursLiked.filter(e=>e!== req.body.family )
+    family.othersLiked = family.othersLiked.filter(e=>e!== req.body.liker )
+    
+
+
+    try {
+      await liker.save()
+      await family.save()
+    } catch (error) {
+      console.log(error.message);
+    }
+
+
+    res.send({ message: 'Accepted'})
+
+  }
+
+
+})
+);
+
+
+
+familyRouter.put( '/reject', expressAsyncHandler(async (req, res) => {
+  
+
+  const liker = await Family.findById(req.body.liker);
+  const family = await Family.findById(req.body.family);
+
+
+  if(liker && family){ 
+
+    liker.oursLiked = liker.oursLiked.filter(e=>e!== req.body.family )
+    family.othersLiked = family.othersLiked.filter(e=>e!== req.body.liker )
+
+
+    try {
+      await liker.save()
+      await family.save()
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    res.send({ message: 'Rejected'})
+
+  }
+
+
+})
+);
+
+
+// familyRouter.get( '/otherslike/:id', expressAsyncHandler(async (req, res) => {
+//   const user = await Family.findById(req.params.id);
+//   if(user){  res.send(user.othersLiked) }
+// })
+// );
+
+
+
+familyRouter.get( '/forchat/:id', expressAsyncHandler(async (req, res) => {
+  
+  console.log('listssss of chat ');
+
+  const user = await Family.findById(req.params.id);
+  const users = await Family.find({  '_id': { $in: user.forChat} });
+  console.log(users);
+  if (users){
+    res.send(users)
+  }
+  else{
+    res.status(401).send({ message: 'no users found' });
+  }
+
+})
+);
+
+
+
+
 familyRouter.put( '/addimages/:id' , expressAsyncHandler(async (req, res) => {
   
   console.log('addig images');
@@ -58,19 +156,13 @@ familyRouter.put( '/addimages/:id' , expressAsyncHandler(async (req, res) => {
 
 
 
-familyRouter.post( '/listofusersMatched/:id', expressAsyncHandler(async (req, res) => {
+familyRouter.get( '/otherslike/:id', expressAsyncHandler(async (req, res) => {
   
   console.log('listssss of ----------');
 
-
-
   const user = await Family.findById(req.params.id);
-
-
-  const users = await Family.find({  '_id': { $in: user.Matched} });
-
+  const users = await Family.find({  '_id': { $in: user.othersLiked} });
   console.log(users);
-
   if (users){
     res.send(users)
   }
@@ -91,7 +183,7 @@ familyRouter.put( '/notificationremover/:id' , expressAsyncHandler(async (req, r
   console.log('removinggg');
   const user = await Family.findById(req.params.id);
   if(user){
-    user.newMatches = 0
+    user.newLikes = 0
     const x = await user.save()
     res.send({x})
   }
@@ -119,25 +211,13 @@ familyRouter.put( '/liked' , expressAsyncHandler(async (req, res) => {
         if (family && (family.othersLiked.indexOf(req.body.liker) === -1 )  ){
 
                 family.othersLiked.push(req.body.liker)
+                family.newLikes = family.newLikes + 1 
         }
 
 
 
         if (liker && (liker.oursLiked.indexOf(req.body.family) === -1 ) ){
                 liker.oursLiked.push(req.body.family)
-        }
-
-
-
-        if((family.oursLiked.indexOf(req.body.liker) !== -1)  && (family.Matched.indexOf(req.body.liker) === -1 )  ){
-                family.Matched.push(req.body.liker)
-                family.newMatches = family.newMatches + 1
-        }
-
-
-        if((liker.othersLiked.indexOf(req.body.family) !== -1) && (liker.Matched.indexOf(req.body.family) === -1 )){
-                liker.Matched.push(req.body.family)
-                liker.newMatches = liker.newMatches + 1
         }
 
 
@@ -178,12 +258,125 @@ familyRouter.post( '/signin', expressAsyncHandler(async (req, res) => {
 );
 
 
+
+
+
 familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
-        console.log("getting users ");
-        const users = await Family.find({});
-        res.send(users);
+        // console.log("getting users ");
+        // const users = await Family.find({});
+        // res.send(users);
+
+
+        const interestsdescription = req.query.interestsdescription || '';
+        const min = req.query.min && Number(req.query.min) !== 0 ? Number(req.query.min) : 0;
+        const max = req.query.max && Number(req.query.max) !== 0 ? Number(req.query.max) : 0;
+        const ethinicity = req.query.ethinicity || '';
+
+        const interestsdescriptionFilterP1 = interestsdescription ? { 'parent1.interests' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterP1 = ethinicity ? { 'parent1.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterP1 = min && max ? { 'parent1.age': { $gte: min, $lte: max } } : {};
+
+
+        const interestsdescriptionFilterP2 = interestsdescription ? { 'parent2.interests' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterP2 = ethinicity ? { 'parent2.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterP2 = min && max ? { 'parent2.age': { $gte: min, $lte: max } } : {};
+
+
+        const interestsdescriptionFilterC1 = interestsdescription ? { 'child1.interests' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterC1 = ethinicity ? { 'child1.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterC1 = min && max ? { 'child1.age': { $gte: min, $lte: max } } : {};
+
+
+        const interestsdescriptionFilterC2 = interestsdescription ? { 'child2.interests' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterC2 = ethinicity ? { 'child2.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterC2 = min && max ? { 'child2.age': { $gte: min, $lte: max } } : {};
+
+
+        const interestsdescriptionFilterC3 = interestsdescription ? { 'child3.interests' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterC3 = ethinicity ? { 'child3.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterC3 = min && max ? { 'child3.age': { $gte: min, $lte: max } } : {};
+
+        const interestsdescriptionFilterC4 = interestsdescription ? { 'child4.interests' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterC4 = ethinicity ? { 'child4.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterC4 = min && max ? { 'child4.age': { $gte: min, $lte: max } } : {};
+
+        const interestsdescriptionFilterDes = interestsdescription ? { 'descriptions' : { $regex: interestsdescription=== "all" ? '' : interestsdescription , $options: 'i' }} : {};
+        const ethnicityFilterDes = ethinicity ? { 'parent1.ethnicity' : { $regex: ethinicity=== "all" ? '' : ethinicity , $options: 'i' } } : {};
+        const ageFilterDes = min && max ? { 'parent1.age': { $gte: min, $lte: max } } : {};
+
+
+ 
+        const usersP1 = await Family.find({ 
+          ...interestsdescriptionFilterP1 ,
+          ...ethnicityFilterP1 ,
+          ...ageFilterP1 
+        });
+
+        const usersP2 = await Family.find({ 
+          ...interestsdescriptionFilterP2 ,
+          ...ethnicityFilterP2 ,
+          ...ageFilterP2 
+        });
+
+        const usersC1 = await Family.find({ 
+          ...interestsdescriptionFilterC1 ,
+          ...ethnicityFilterC1 ,
+          ...ageFilterC1 
+        });
+
+        const usersC2 = await Family.find({ 
+          ...interestsdescriptionFilterC2 ,
+          ...ethnicityFilterC2 ,
+          ...ageFilterC2 
+        });
+
+        const usersC3 = await Family.find({ 
+          ...interestsdescriptionFilterC3 ,
+          ...ethnicityFilterC3 ,
+          ...ageFilterC3 
+        });
+
+        const usersC4 = await Family.find({ 
+          ...interestsdescriptionFilterC4 ,
+          ...ethnicityFilterC4 ,
+          ...ageFilterC4 
+        });
+
+        const usersDes = await Family.find({ 
+          ...interestsdescriptionFilterDes ,
+          ...ethnicityFilterDes ,
+          ...ageFilterDes
+        });
+
+
+        Array.prototype.push.apply(usersP1,usersDes);
+        Array.prototype.push.apply(usersP1,usersP2);
+        Array.prototype.push.apply(usersP1,usersC1);
+        Array.prototype.push.apply(usersP1,usersC2);
+
+
+        console.log(usersDes);
+
+        res.send(usersP1);
+
+
+
+
+
+
+
+
+
+
+
+
       })
 );
+
+
+
+
+
     
 familyRouter.get( '/:id' , expressAsyncHandler(async (req, res) => {
         console.log("getting 1 user");

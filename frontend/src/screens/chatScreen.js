@@ -1,7 +1,7 @@
 import React, { Component , useEffect, useState } from 'react'
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-bootstrap';
-import { listUsersByID , notificationremover , userDetails , accept , reject} from '../actions/userActions';
+import { avaliableForChat , notificationremover , userDetails , accept , reject} from '../actions/userActions';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,43 +11,19 @@ import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 
 
-class matchScreen extends Component {
+class chatScreen extends Component {
 
 
 
-        constructor(){
-                super()
-                this.state = {
-                        decidedFor : []
-                }
-        }
+
 
 
         componentDidMount(){
-                this.props.listUsersByID()
-                this.props.notificationremover()
-
+                this.props.avaliableForChat()
 
         }
 
 
-        acceptHandler =(a) => {
-
-                var joined = this.state.decidedFor.concat(a)
-                this.setState({ decidedFor : joined })
-
-
-
-                this.props.accept(a)
-        }
-        rejectHandler =(a) => {
-
-                var joined = this.state.decidedFor.concat(a)
-                this.setState({ decidedFor : joined })
-
-                this.props.reject(a)
-        }
-        
         
         render() {
                 if (!this.props.userInfo) { this.props.history.push('/') }
@@ -55,12 +31,11 @@ class matchScreen extends Component {
                 const {users , userInfo} = this.props
                 return (
                         <div>
-                          <h1><b>ITS A MATCH !</b></h1>
-                          <h1>These Families also LOVE you... !</h1>
+                          <h1><b>Chat list</b></h1>
                           <div className="row center">
                         {!users ? (<div>loading...</div>) : <div>
 
-                                {users.filter(x =>  (this.state.decidedFor.indexOf(x._id) === -1)   ).map((x) => (
+                                {users.map((x) => (
                         <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'600px' }} >
                                 
                                 <div className="card-body">
@@ -88,15 +63,6 @@ class matchScreen extends Component {
                                 <h1>{x.descriptions}</h1>
                                 </div>
                                 }
-
-                                <div className='row center ' >
-                                <Link to={`/families/${x._id}`} >
-                                <Button variant="outline-primary" size='lg'> <h3>More about this family  <ArrowForwardIosIcon/> </h3> </Button>{' '}
-                                </Link>
-                                <Button variant="success" size='lg' onClick={()=>this.acceptHandler(x._id)}> <h3>Accept  <CheckIcon/> </h3> </Button>{' '}
-                                <Button variant="danger" size='lg' onClick={()=>this.rejectHandler(x._id)} > <h3>Reject <CloseIcon/> </h3> </Button>{' '}
-
-                                </div>
                                 
 
                                 
@@ -148,9 +114,9 @@ class matchScreen extends Component {
 export default connect(
         
         (state) => ({ 
-                users : state.listUsersByID.users , 
-                loading : state.listUsersByID.loading , 
-                error : state.listUsersByID.error , 
+                users : state.ListForChat.users , 
+                loading : state.ListForChat.loading , 
+                error : state.ListForChat.error , 
 
                 userInfo : state.userSignin.userInfo ,
 
@@ -162,10 +128,10 @@ export default connect(
         
         }),
         {
-                listUsersByID , notificationremover , userDetails , accept , reject
+                avaliableForChat , notificationremover , userDetails , accept , reject
         } 
       
-)(matchScreen);
+)(chatScreen);
 
 
 

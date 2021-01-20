@@ -1,6 +1,6 @@
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import {  userRegisterReducer, userSigninReducer , getDetailsReducer , userUpdateProfileReducer, userListReducer, userUpdateReducer, likeReducer, listUsersByIDReducer, notificationRemoverReducer, LimitCheckReducer } from './reducers/userReducers';
+import {  userRegisterReducer, userSigninReducer , getDetailsReducer , userUpdateProfileReducer, userListReducer, userUpdateReducer, likeReducer, listUsersByIDReducer, notificationRemoverReducer, LimitCheckReducer, acceptReducer, rejectReducer, ListOthersLikeReducer, ListForChatReducer } from './reducers/userReducers';
 
 
 
@@ -19,6 +19,11 @@ const reducer = combineReducers({
   listUsersByID : listUsersByIDReducer ,
   notificationRemover : notificationRemoverReducer ,
   LimitCheck : LimitCheckReducer ,
+  
+  accept : acceptReducer ,
+  reject : rejectReducer , 
+  ListOthersLike : ListOthersLikeReducer , 
+  ListForChat : ListForChatReducer ,
   
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

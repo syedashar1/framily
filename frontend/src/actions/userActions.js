@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-import {  USER_DELETE_FAIL, USER_DELETE_REQUEST, USER_DELETE_RESET, USER_DELETE_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT,  USER_UPDATE_FAIL, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_RESET, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from "../types/familyTypes";
+import {  ACCEPT_FAIL, ACCEPT_REQUEST, ACCEPT_SUCCESS, LIST_FORCHAT_FAIL, LIST_FORCHAT_REQUEST, LIST_FORCHAT_SUCCESS, LIST_OTHERSLIKE_FAIL, LIST_OTHERSLIKE_REQUEST, LIST_OTHERSLIKE_SUCCESS, REJECT_FAIL, REJECT_REQUEST, REJECT_SUCCESS, USER_DELETE_FAIL, USER_DELETE_REQUEST, USER_DELETE_RESET, USER_DELETE_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT,  USER_UPDATE_FAIL, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_RESET, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from "../types/familyTypes";
 
 import { USER_REGISTER_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, LIKE_REQUEST, LIKE_SUCCESS, LIKE_FAIL, LIST_USERS_BY_ID_REQUEST, LIST_USERS_BY_ID_SUCCUESS, LIST_USERS_BY_ID_FAIL, LIKE_RESET , REMOVER_FAIL , REMOVER_SUCCESS , REMOVER_REQUEST, REMOVER_RESET } from "../types/familyTypes";
 
@@ -22,14 +22,11 @@ export const signin = (email, password) => async (dispatch) => {
                 ? error.response.data.message
                 : error.message,
     });
-
   }
-
-
 };
 
 
-export const listUsersByID = (list) => async (dispatch, getState) => {
+export const listUsersByID = () => async (dispatch, getState) => {
 
   console.log('getting the matched list');
   
@@ -39,7 +36,7 @@ export const listUsersByID = (list) => async (dispatch, getState) => {
   
     try {
       
-      const { data } = await Axios.post(`/api/users/listofusersMatched/${userInfo._id}` , {list} );
+      const { data } = await Axios.get(`/api/users/otherslike/${userInfo._id}` );
       
       dispatch({ type: LIST_USERS_BY_ID_SUCCUESS, payload: data });
     } catch (error) {
@@ -96,11 +93,8 @@ export const userDetails = (_id) => async (dispatch , getState) => {
         if (_id) {
 
           console.log(_id);
-          const { data } = await Axios.post('/api/users/profileAdmin', {_id} , {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        });
+          const { data } = await Axios.get(`/api/users/${_id}`);
+          console.log(data);
           dispatch({ type: USER_DETAILS_SUCCESS , payload: data });
           
         }
@@ -137,7 +131,7 @@ export const userDetails = (_id) => async (dispatch , getState) => {
 
 
 
-export const listUsers = () => async (dispatch, getState) => {
+export const listUsers = ({ interestsdescription = '' , ethinicity = '' ,min = 0,max = 100}) => async (dispatch, getState) => {
   dispatch({ type: USER_LIST_REQUEST });
   dispatch({ type: LIKE_RESET });
   dispatch({ type: REMOVER_RESET });
@@ -146,7 +140,15 @@ export const listUsers = () => async (dispatch, getState) => {
 
   try {
     
-    const { data } = await Axios.get('/api/users');
+    // const { data } = await Axios.get('/api/users');
+
+    const { data } = await Axios.get(
+
+      `/api/users?interestsdescription=${interestsdescription}&min=${min}&max=${max}&ethinicity=${ethinicity}`
+      
+      );
+
+
     dispatch({ type: USER_LIST_SUCCESS, payload: data });
   } catch (error) {
     const message =
@@ -276,5 +278,88 @@ export const notificationremover = () => async (dispatch , getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: REMOVER_FAIL, payload: message });
+  }
+};
+
+
+
+export const accept = ( liker ) => async (dispatch , getState) => {
+  
+  const family = getState().userSignin.userInfo._id
+
+  dispatch({ type: ACCEPT_REQUEST });
+
+
+  try {
+    const { data } = await Axios.put(`/api/users/accept` , { family , liker } );
+    dispatch({ type: ACCEPT_SUCCESS , payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: ACCEPT_FAIL, payload: message });
+  }
+};
+
+
+export const reject = ( liker ) => async (dispatch , getState) => {
+  
+  const family = getState().userSignin.userInfo._id
+
+  dispatch({ type: REJECT_REQUEST });
+
+
+  try {
+    const { data } = await Axios.put(`/api/users/reject` , { family , liker } );
+    dispatch({ type: REJECT_SUCCESS , payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: REJECT_FAIL, payload: message });
+  }
+};
+
+
+
+// export const otherslike = () => async (dispatch , getState) => {
+  
+//   const userInfo = getState().userSignin.userInfo
+
+//   dispatch({ type: LIST_OTHERSLIKE_REQUEST });
+
+
+//   try {
+//     const { data } = await Axios.get(`/api/users/otherslike/${userInfo._id}`);
+//     dispatch({ type: LIST_OTHERSLIKE_SUCCESS, payload: data });
+//   } catch (error) {
+//     const message =
+//       error.response && error.response.data.message
+//         ? error.response.data.message
+//         : error.message;
+//     dispatch({ type: LIST_OTHERSLIKE_FAIL, payload: message });
+//   }
+// };
+
+
+export const avaliableForChat = () => async (dispatch , getState) => {
+  
+  const userInfo = getState().userSignin.userInfo
+
+  dispatch({ type: LIST_FORCHAT_REQUEST });
+
+
+  try {
+    const { data } = await Axios.get(`/api/users/forchat/${userInfo._id}`);
+    console.log(data);
+    dispatch({ type: LIST_FORCHAT_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: LIST_FORCHAT_FAIL, payload: message });
   }
 };

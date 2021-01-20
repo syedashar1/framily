@@ -9,6 +9,9 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { Button } from 'react-bootstrap';
+import SearchBox from '../components/searchBox';
 
 
 class HomeScreen extends Component {
@@ -17,18 +20,47 @@ class HomeScreen extends Component {
         constructor(){
                 super()
                 this.state = {
-                        listofLiked : []
+                        listofLiked : [] , 
+                        name : '' , 
+                        currentUrl : '' ,
+                        currentQuery :'',
+
+
                 }
         }
 
 
         componentDidMount(){
+
+                const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
+
+
                 console.log('here');
-                this.props.listUsers()
+                this.props.listUsers({interestsdescription , ethinicity , min , max })
                 this.props.userDetails()
+
+                
+                this.setState({currentQuery : this.props.match.params.title })
+                this.setState({currentUrl : this.props.match.params})
 
 
         }
+
+
+
+        getFilterUrl = (filter) => {
+                console.log(filter);
+                const { interestsdescription = 'all', min = 0, ethinicity = 'all', max = 100 } = this.props.match.params;
+                const interestsdescriptionFilter = interestsdescription;
+                const ethinicityFilter = filter.ethinicity || ethinicity;
+                const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
+                const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
+                return `/filter/interestsdescription/${interestsdescriptionFilter}/min/${filterMin}/max/${filterMax}/ethinicity/${ethinicityFilter}`;
+              
+            };
+
+
+
 
 
         likeHandler = (x) =>{
@@ -40,18 +72,99 @@ class HomeScreen extends Component {
                 this.props.like(this.props.userInfo._id , x)
         }
 
+        submitHandler = (e) => {
+                e.preventDefault();
+                console.log(this.state.name);
+                this.props.history.push(`/filter/interestsdescription/${this.state.name === "" ? "all" : this.state.name }/min/${0}/max/${100}/ethinicity/${'all'}`);
+
+                
+                // console.log(`/search/name/${this.state.name}`);
+              };
+
 
         
         render() {
                 if (!this.props.userInfo) { this.props.history.push('/') }
+                const prices = [
+                        {  name: 'All', min: 0, max: 0, },
+                        { name: `18 to 25`, min: 18, max: 25, },
+                        { name: `25 to 35`, min: 25, max: 35, },
+                        { name: `35 and above`, min: 40, max: 100, },
+                ]
+
+                const ethinicityList = [
+                        { name: 'American' },
+                      
+                        { name: 'Asian' },
+                      
+                        { name: 'Latino' },
+                      
+                        { name: 'African American' },
+                        { name: 'Christian' },
+                ]
+
+
+                if(this.props.match.params !== this.state.currentUrl ){
+                        this.setState({currentQuery : this.props.match.params.title })
+                        this.componentDidMount()
+                }
+                
 
                 const {loading , families , userInfo , likeLoading , likeSuccess , likeError , likeLoadingID  }  = this.props
                 const {listofLiked} = this.state
+
+                const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
+                
+
                 return (
                         
                         <div>
                           <h1>this is home screen</h1>
+                          <div>
+                          <div className='row center' >
+                          <form className="search" onSubmit={this.submitHandler}>
+                        <div className="row">
+                          <input type="text" name="q" id="q" onChange={(e) => this.setState({name : e.target.value})}
+                          ></input>
+                          <button className="primary" type="submit">
+                            <i className="fa fa-search"></i>
+                          </button>
+                        </div>
+                      </form>
+                          </div>
+                          <h3>Ages</h3>
+                          <ul>
+                          {prices.map((p) => (
+                            <li key={p.name}>
+                              <Link  to={this.getFilterUrl({ min: p.min , max: p.max })}
+                                className={ `${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''  } >
+                              {p.name}
+                              </Link>
+                            </li> ))}
+                            </ul>
+                            <h3>Select Ethinicity</h3>
+                                <ul>
+                                {ethinicityList.map((r) => (
+                                        <li key={r.name}>
+                                        <Link to={this.getFilterUrl({ ethinicity : r.name })}
+                                        className={`${r.name}` === `${ethinicity}` ? 'active' : ''}
+                                        >
+                                                {r.name}
+                                                
+                                        </Link>
+                                        </li>
+                                ))}
+                                </ul>
+                          </div>
+
+
+
                           <div className="row center">
+                        
+
+
+
+                
                         {!families ? (<div>loading...</div>) : <div>
 
                                 {families.map((x) => (
@@ -59,7 +172,7 @@ class HomeScreen extends Component {
                                 
                                 <div className="card-body">
                                 <div className='row' >
-                                <h1>Parent 1</h1>
+                                <h1><Link to={`/families/${x._id}`} >Parent 1</Link></h1>
                                 <h3>{x.parent1.name}</h3>
                                 <h3>{x.parent1.age}</h3>
                                 <h3>{x.parent1.gender}</h3>
@@ -69,7 +182,7 @@ class HomeScreen extends Component {
                                 </div>
                                 
                                 {x.parent2 && x.parent2.name && <div className='row' >
-                                <h1>Parent 2</h1>
+                                <h1><Link to={`/families/${x._id}`} >Parent 2</Link></h1>
                                 <h3>{x.parent2.name}</h3>
                                 <h3>{x.parent2.age}</h3>
                                 <h3>{x.parent2.gender}</h3>
@@ -84,66 +197,52 @@ class HomeScreen extends Component {
                                 }
 
                                 
-                                {/* {x.image1 && <div style={{height:'150px' , textAlign:'center'}} >
-                                {x.image1 && <img src={x.image1} alt='an img' height='150px' ></img> }
-                                {x.image2 && <img src={x.image2} alt='an img' height='150px' ></img> }
-                                {x.image3 && <img src={x.image3} alt='an img' height='150px' ></img> }
-                                {x.image4 && <img src={x.image4} alt='an img' height='150px' ></img> }
-                                {x.image5 && <img src={x.image5} alt='an img' height='150px' ></img> }
-                                {x.image6 && <img src={x.image6} alt='an img' height='150px' ></img> }
-                                </div>} */}
-
-
-                                {/* { x.image1 &&  <div style={{height:'150px' , textAlign:'center'}} className="carousel-container" >
-                                <Carousel id={x._id} showArrows autoPlay showThumbs={false}>
-                                {x.image1 && <img src={x.image1} alt='an img' height='150px' ></img> }
-                                {x.image2 && <img src={x.image2} alt='an img' height='150px' ></img> }
-                                {x.image3 && <img src={x.image3} alt='an img' height='150px' ></img> }
-                                {x.image4 && <img src={x.image4} alt='an img' height='150px' ></img> }
-                                {x.image5 && <img src={x.image5} alt='an img' height='150px' ></img> }
-                                {x.image6 && <img src={x.image6} alt='an img' height='150px' ></img> }
-                                </Carousel>
-                                </div>} */}
-                        {x.image1 && <div style={{height: '50%' , textAlign:'center'}}>
-                        <Carousel >
+                                
+                        {/* {x.image1 && <div style={{height: '50%' , textAlign:'center'}}>
+                        <Carousel style={{minHeight:'200px' , maxHeight:'650px'}} >
                         {x.image1 && <Carousel.Item>
-                        <img src={x.image1} className="d-block  w-100" alt=' img 1'  ></img> 
+                        <img src={x.image1}style={{  maxHeight:'650px'}} className="d-block  w-100" alt=' img 1'  ></img> 
                         </Carousel.Item>}
                         {x.image2 && <Carousel.Item>
-                        <img src={x.image2} className="d-block w-100 " alt=' img 2' ></img> 
+                        <img src={x.image2}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block w-100 " alt=' img 2' ></img> 
                         </Carousel.Item>}
                         {x.image3 && <Carousel.Item>
-                        <img src={x.image3} className="d-block  w-100" alt=' img 3'  ></img> 
+                        <img src={x.image3}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block  w-100" alt=' img 3'  ></img> 
                         </Carousel.Item>}
                         {x.image4 && <Carousel.Item>
-                        <img src={x.image4} className="d-block w-100" alt=' img 4'  ></img> 
+                        <img src={x.image4}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block w-100" alt=' img 4'  ></img> 
                         </Carousel.Item>}
                         {x.image5 && <Carousel.Item>
-                        <img src={x.image5} className="d-block  w-100" alt=' img 5'  ></img> 
+                        <img src={x.image5}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block  w-100" alt=' img 5'  ></img> 
                         </Carousel.Item>}
                         {x.image6 && <Carousel.Item>
-                        <img src={x.image6} className="d-block w-100 " alt=' img 6'  ></img> 
+                        <img src={x.image6}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block w-100 " alt=' img 6'  ></img> 
                         </Carousel.Item>}
                         </Carousel>
-                        </div> }
+                        </div> } */}
 
                                 
 
                                 
                                 
                                 
-                                <div>
+                                <div className='row center' >
+                                
+                                <Link to={`/families/${x._id}`} >
+                                <Button variant="outline-primary" size='lg'> <h3>View Family<ArrowForwardIosIcon/> </h3> </Button>{' '}
+                                </Link>
+                                
                                 {userInfo && 
-                                <p style={{textAlign:'center'}} onClick ={() => this.likeHandler( x._id) } className="primary" >
+                                <p onClick ={() => this.likeHandler( x._id) } >
                                         {
                                         ((x.othersLiked.indexOf(userInfo._id) !== -1) ||  (likeSuccess && (likeSuccess === x._id)) || listofLiked.indexOf(x._id) !== -1 )
                                          ? <>
-                                         <IconButton edge={false} >
+                                         <IconButton >
                                         <FavoriteIcon  style={{color : "red" , fontSize : '50px'}} />
                                         </IconButton>
                                          </> :
                                          <>
-                                         <IconButton edge={false} >
+                                         <IconButton>
                                         <FavoriteBorderIcon  style={{color : "red" , fontSize : '50px'}} />
                                         </IconButton>
                                          </>  }
