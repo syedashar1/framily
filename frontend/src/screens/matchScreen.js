@@ -12,7 +12,7 @@ import CheckIcon from '@material-ui/icons/Check';
 
 
 class matchScreen extends Component {
-
+ 
 
 
         constructor(){
@@ -22,7 +22,7 @@ class matchScreen extends Component {
                 }
         }
 
-
+ 
         componentDidMount(){
                 this.props.listUsersByID()
                 this.props.notificationremover()
@@ -55,10 +55,15 @@ class matchScreen extends Component {
                 const {users , userInfo} = this.props
                 return (
                         <div>
-                          <h1><b>ITS A MATCH !</b></h1>
-                          <h1>These Families also LOVE you... !</h1>
+                          
                           <div className="row center">
                         {!users ? (<div>loading...</div>) : <div>
+                        
+                        {users.length !== 0 ? 
+                        <div><h1><b>ITS A MATCH !</b></h1>
+                        <h1>These Families also LOVE you... !</h1></div> :
+                        <div><h1><b>No new matches</b></h1></div>        
+                }
 
                                 {users.filter(x =>  (this.state.decidedFor.indexOf(x._id) === -1)   ).map((x) => (
                         <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'600px' }} >

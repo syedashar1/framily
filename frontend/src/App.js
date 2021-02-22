@@ -12,7 +12,7 @@ import matchScreen from './screens/matchScreen';
 import Home from './screens/Home';
 import familyDetails from './screens/familyDetails';
 import chatScreen from './screens/chatScreen';
-
+import ChatApp from './chat/components/ChatApp'
 
 class App extends React.Component {
 
@@ -42,7 +42,8 @@ class App extends React.Component {
                 <Route path="/signin" component={SignIn} exact></Route>
                 <Route path="/register" component={RegisterScreen}></Route>
                 <Route path="/families/:id" component={familyDetails}></Route>
-                <Route path="/chat" component={chatScreen}></Route>
+                <Route path="/forchat" component={chatScreen}></Route>
+                <Route path="/chat" component={ChatApp}></Route>
                 <Route 
                 path="/filter/interestsdescription/:interestsdescription/min/:min/max/:max/ethinicity/:ethinicity"
                 component={HomeScreen} exact

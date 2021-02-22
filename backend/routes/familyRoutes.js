@@ -349,10 +349,14 @@ familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
         });
 
 
-        Array.prototype.push.apply(usersP1,usersDes);
+        
         Array.prototype.push.apply(usersP1,usersP2);
         Array.prototype.push.apply(usersP1,usersC1);
         Array.prototype.push.apply(usersP1,usersC2);
+
+        if(interestsdescription !== 'all' && interestsdescription !== '' ){
+          Array.prototype.push.apply(usersP1,usersDes);
+        }
 
 
         console.log(usersDes);

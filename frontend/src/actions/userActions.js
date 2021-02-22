@@ -198,7 +198,7 @@ export const updateUserProfileReset = () => (dispatch) => {
 
 
 export const signout = () => (dispatch) => {
-  localStorage.removeItem('userInfo');
+  localStorage.clear();
   dispatch({ type: USER_SIGNOUT });
 };
 

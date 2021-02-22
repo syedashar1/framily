@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 import { BrowserRouter, Link, Route } from 'react-router-dom';
-import { signout ,userDetails } from '../actions/userActions'
+import { signout ,userDetails , avaliableForChat } from '../actions/userActions'
 import './navbar.css';
 import ChatIcon from '@material-ui/icons/Chat';
 
@@ -17,12 +17,13 @@ class Navbar extends Component {
 
         componentDidMount(){
                 this.props.userDetails()
+                this.props.avaliableForChat()
         }
 
         render() {
 
           
-                const { userInfo , signout , user , removeSuccess } = this.props
+                const { userInfo , signout , user , removeSuccess , forChatUsers } = this.props
 
                 
           
@@ -43,7 +44,7 @@ class Navbar extends Component {
       <IconButton>
       <Link style={{color:'#6b6b6b'}}  to="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
 
-                                <span className="badge">3</span>
+                                <span className="badge">{forChatUsers ? forChatUsers.length : '' }</span>
         </Link>
         
       </IconButton>
@@ -119,6 +120,7 @@ export default connect(
 
                 removeSuccess : state.notificationRemover.success , 
 
+                forChatUsers : state.ListForChat.users , 
 
 
 
@@ -128,7 +130,7 @@ export default connect(
         }),
         {
                 
-                signout , userDetails
+                signout , userDetails , avaliableForChat
         }
       
 )(Navbar);
