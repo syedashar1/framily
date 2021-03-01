@@ -13,7 +13,8 @@ import Home from './screens/Home';
 import familyDetails from './screens/familyDetails';
 import chatScreen from './screens/chatScreen';
 import ChatApp from './chat/components/ChatApp'
-
+import map from './screens/map';
+import UpdateUserScreen from './screens/UdateUserScreen'
 class App extends React.Component {
 
 
@@ -44,6 +45,8 @@ class App extends React.Component {
                 <Route path="/families/:id" component={familyDetails}></Route>
                 <Route path="/forchat" component={chatScreen}></Route>
                 <Route path="/chat" component={ChatApp}></Route>
+                <Route path="/map" component={map}></Route>
+                <Route path="/update" component={UpdateUserScreen}></Route>
                 <Route 
                 path="/filter/interestsdescription/:interestsdescription/min/:min/max/:max/ethinicity/:ethinicity"
                 component={HomeScreen} exact

@@ -39,7 +39,7 @@ class userProfileScreen extends Component {
 return (
         <div>
                           <h1>this is profile screen</h1>
-                          <button onClick={()=>{console.log(user)}} ></button>
+                          {/* <button onClick={()=>{console.log(user)}} ></button> */}
                           <div className="row center">
                         {!user && (<div>loading...</div>) } <div>
 

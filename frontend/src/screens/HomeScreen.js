@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Button } from 'react-bootstrap';
 import SearchBox from '../components/searchBox';
+import { getDistance , getPreciseDistance } from 'geolib';
 
 
 class HomeScreen extends Component {
@@ -38,6 +39,7 @@ class HomeScreen extends Component {
                 console.log('here');
                 this.props.listUsers({interestsdescription , ethinicity , min , max })
                 this.props.userDetails()
+                
 
                 
                 this.setState({currentQuery : this.props.match.params.title })
@@ -45,6 +47,23 @@ class HomeScreen extends Component {
 
 
         }
+
+
+        distance = (a , b) =>{
+
+
+                const x = getDistance(
+                        { latitude: this.props.user.location.latitude , longitude: this.props.user.location.longitude },
+                        { latitude: a , longitude: b }
+                    );
+
+                // console.log( 'distance from geolib' , x);
+
+                
+                
+                return x
+        }
+
 
 
 
@@ -68,7 +87,7 @@ class HomeScreen extends Component {
                 this.setState({ listofLiked : joined })
                 console.log(this.state.listofLiked);
 
-                this.props.userDetails()
+                // this.props.userDetails()
                 this.props.like(this.props.userInfo._id , x)
         }
 
@@ -110,7 +129,7 @@ class HomeScreen extends Component {
                 }
                 
 
-                const {loading , families , userInfo , likeLoading , likeSuccess , likeError , likeLoadingID  }  = this.props
+                const {loading , families , userInfo , likeLoading , likeSuccess , likeError , likeLoadingID , user }  = this.props
                 const {listofLiked} = this.state
 
                 const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
@@ -165,11 +184,11 @@ class HomeScreen extends Component {
 
 
                 
-                        {!families ? (<div>loading...</div>) : <div>
+                        {!families || !user ? (<div>loading...</div>) : <div>
 
                                 {families.map((x) => (
                         <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'600px' }} >
-                                
+                                <p>{x._id}</p>
                                 <div className="card-body">
                                 <div className='row' >
                                 <h1><Link to={`/families/${x._id}`} >Parent 1</Link></h1>
@@ -190,6 +209,19 @@ class HomeScreen extends Component {
                                 <h3>{x.parent2.interests}</h3>
                                 </div>
                                 }
+
+
+                                {x.location && x.location.latitude 
+                                && this.props.user.location 
+                                && this.props.user.location.latitude 
+                                && <div className='row' >
+                                <h1>Distance : {this.distance(x.location.latitude , x.location.longitude)} meters </h1>
+
+                                </div>
+                                }               
+
+
+                                
 
                                 {x.descriptions && <div className='row' >
                                 <h1>{x.descriptions}</h1>
@@ -284,6 +316,9 @@ export default connect(
                 likeLoadingID : state.like.id , 
                 likeSuccess : state.like.success , 
                 likeError : state.like.error , 
+
+                user : state.getDetails.user
+
 
         
         }),

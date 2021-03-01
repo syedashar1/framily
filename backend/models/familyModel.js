@@ -8,10 +8,10 @@ const familySchema = new mongoose.Schema(
 
         parent1:{
                 name  : {type : String , required : true },
-                age  : {type : Number , required : true },
-                interests  : {type:String} ,
-                ethnicity : {type : String , required : true},
-                gender : {type : String , required : true}
+                age  : {type : Number , required : false },
+                interests  : {type:String } ,
+                ethnicity : {type : String ,  default:'now mentioned' },
+                gender : {type : String , default:'now mentioned' }
         },
         parent2:{
                 name  : {type : String },
@@ -69,7 +69,19 @@ const familySchema = new mongoose.Schema(
 
         descriptions : {type:String , default : "this is description" } ,
 
-        location : {type:String} ,
+        location : {
+                latitude : {type : Number} , 
+                longitude : {type : Number}
+                
+        } ,
+
+        conversations : [{
+                recipients : [String] , 
+                messages : [
+                        {sender : String  ,
+                        text : String }  
+                ]
+        }]
 
   } ,
   {

@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "firebase": "^8.2.2",
     "framer-motion": "^3.2.1",
+    "geolib": "^3.3.1",
     "mongoose": "^5.10.12",
     "multer": "^1.4.2",
     "nodemon": "^2.0.6",

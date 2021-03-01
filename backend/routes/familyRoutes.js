@@ -3,9 +3,35 @@ import expressAsyncHandler from 'express-async-handler';
 import Family from '../models/familyModel.js'
 import { generateToken, isAuth , isAdmin, isSellerOrAdmin } from '../utils.js';
 import bcrypt from 'bcrypt'
-
+import  ObjectId  from 'mongodb';
+import _ from'lodash';
 
 const familyRouter = express.Router();
+
+
+
+
+familyRouter.put( '/saveAll/:id', expressAsyncHandler(async (req, res) => {
+  
+
+  const user = await Family.findById(req.params.id);
+  user.conversations = req.body
+        res.send({ first : req.body , second : user.conversations });
+
+  
+
+    try {
+      await user.save()
+      res.send({ first : req.body , second : user.conversations });
+      res.send(user.conversations)
+    } catch (error) {
+          res.status(401).send(error);
+    }
+
+
+
+})
+);
 
 
 
@@ -27,7 +53,13 @@ familyRouter.put( '/accept', expressAsyncHandler(async (req, res) => {
 
     liker.oursLiked = liker.oursLiked.filter(e=>e!== req.body.family )
     family.othersLiked = family.othersLiked.filter(e=>e!== req.body.liker )
-    
+
+
+    family.conversations.push( {recipients : req.body.liker} )
+    liker.conversations.push( {recipients : req.body.family} )
+
+
+    console.log(family.conversations);
 
 
     try {
@@ -91,9 +123,26 @@ familyRouter.get( '/forchat/:id', expressAsyncHandler(async (req, res) => {
 
   const user = await Family.findById(req.params.id);
   const users = await Family.find({  '_id': { $in: user.forChat} });
-  console.log(users);
+  // console.log(users);
   if (users){
     res.send(users)
+  }
+  else{
+    res.status(401).send({ message: 'no users found' });
+  }
+
+})
+);
+
+
+familyRouter.get( '/getconversations/:id', expressAsyncHandler(async (req, res) => {
+  
+  console.log('getting conversations');
+
+  const user = await Family.findById(req.params.id);
+
+  if (user.conversations){
+    res.send(user.conversations)
   }
   else{
     res.status(401).send({ message: 'no users found' });
@@ -353,6 +402,8 @@ familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
         Array.prototype.push.apply(usersP1,usersP2);
         Array.prototype.push.apply(usersP1,usersC1);
         Array.prototype.push.apply(usersP1,usersC2);
+        Array.prototype.push.apply(usersP1,usersC3);
+        Array.prototype.push.apply(usersP1,usersC4);
 
         if(interestsdescription !== 'all' && interestsdescription !== '' ){
           Array.prototype.push.apply(usersP1,usersDes);
@@ -361,7 +412,14 @@ familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
 
         console.log(usersDes);
 
-        res.send(usersP1);
+        
+
+
+        // const send  = usersP1.filter((v,i,a)=>a.findIndex( t =>(t._id === v._id))===i)
+
+        var non_duplidated_data = _.uniqBy(usersP1, 'id'); 
+
+        res.send(non_duplidated_data);
 
 
 
@@ -388,7 +446,128 @@ familyRouter.get( '/:id' , expressAsyncHandler(async (req, res) => {
         res.send(user);
       })
 );
+
+
+
+
+familyRouter.put( '/update/:id' , expressAsyncHandler(async (req, res) => {
+  
+
+
+  const user = await Family.findById(req.params.id);
+  console.log('updating');
+  if (user) {
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
     
+    user.parent1.name = req.body.parent1.name  || user.parent1.name 
+    user.parent1.age = req.body.parent1.age  || user.parent1.age 
+    user.parent1.gender = req.body.parent1.gender  || user.parent1.gender 
+    user.parent1.ethnicity = req.body.parent1.ethnicity  || user.parent1.ethnicity 
+    user.parent1.interests = req.body.parent1.interests  || user.parent1.interests 
+
+    user.parent2.name = req.body.parent2.name  || user.parent2.name 
+    user.parent2.age = req.body.parent2.age  || user.parent2.age 
+    user.parent2.gender = req.body.parent2.gender  || user.parent2.gender 
+    user.parent2.ethnicity = req.body.parent2.ethnicity  || user.parent2.ethnicity 
+    user.parent2.interests = req.body.parent2.interests  || user.parent2.interests 
+
+
+
+
+    user.child1.name = req.body.child1.name  || user.child1.name 
+    user.child1.age = req.body.child1.age  || user.child1.age 
+    user.child1.gender = req.body.child1.gender  || user.child1.gender 
+    user.child1.ethnicity = req.body.child1.ethnicity  || user.child1.ethnicity 
+    user.child1.interests = req.body.child1.interests  || user.child1.interests
+
+    user.child2.name = req.body.child2.name  || user.child2.name 
+    user.child2.age = req.body.child2.age  || user.child2.age 
+    user.child2.gender = req.body.child2.gender  || user.child2.gender 
+    user.child2.ethnicity = req.body.child2.ethnicity  || user.child2.ethnicity 
+    user.child2.interests = req.body.child2.interests  || user.child2.interests
+
+    user.child3.name = req.body.child3.name  || user.child3.name 
+    user.child3.age = req.body.child3.age  || user.child3.age 
+    user.child3.gender = req.body.child3.gender  || user.child3.gender 
+    user.child3.ethnicity = req.body.child3.ethnicity  || user.child3.ethnicity 
+    user.child3.interests = req.body.child3.interests  || user.child3.interests
+
+    user.child4.name = req.body.child4.name  || user.child4.name 
+    user.child4.age = req.body.child4.age  || user.child4.age 
+    user.child4.gender = req.body.child4.gender  || user.child4.gender 
+    user.child4.ethnicity = req.body.child4.ethnicity  || user.child4.ethnicity 
+    user.child4.interests = req.body.child4.interests  || user.child4.interests
+
+
+    if (req.body.password) {
+      user.password = bcrypt.hashSync(req.body.password, 8);
+    }
+
+    const updatedUser = await user.save();
+
+    console.log(updatedUser);
+    res.send({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      token: generateToken(updatedUser),
+    });
+  }
+
+
+
+
+
+
+
+})
+);
+
+
+
+
+familyRouter.put( '/msgtosend/:id' , expressAsyncHandler(async (req, res) => {
+        
+        console.log('see meeeee');
+        console.log(req.body)
+        console.log(req.params.id);
+
+
+        const user = await Family.findById(req.body.recipients[0]);
+
+
+        
+
+
+
+        for(var i = 0 ; i < user.conversations.length ; i++ ){
+          console.log(i);
+          console.log(user.conversations[i].recipients[0]);
+          if (user.conversations[i].recipients[0] === req.params.id ) {
+            console.log('found it !  at' , i );
+            break
+          }
+        }
+        if (user) {
+           user.conversations[i].messages.push({sender : req.params.id , text : req.body.text })
+            await user.save()
+
+                }
+
+       
+
+
+
+
+
+// 60375f8badaaf11aa0bf5ca8
+
+
+
+      })
+); 
 
 
 familyRouter.post('/register' , expressAsyncHandler( async (req , res) => {

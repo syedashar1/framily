@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { avaliableForChat } from '../../actions/userActions';
 import { useEffect } from 'react';
 import { connect } from "react-redux";
+import Axios from 'axios';
 
 
 // function App(props) {
@@ -45,13 +46,38 @@ import { connect } from "react-redux";
 
 class App extends Component {
 
-  componentDidMount(){
+
+  constructor(){
+    super();
+    this.state = {
+      convPresent : false
+    }
+  }
+
+  componentDidMount = async () => {
     this.props.avaliableForChat()
+
+
+    if( JSON.parse(localStorage.getItem('whatsapp-clone-conversations')) === [] || !localStorage.getItem('whatsapp-clone-conversations')) {
+      console.log('nothing present in it');
+      const { data } = await Axios.get(`/api/users/getconversations/${this.props.userInfo._id}`);
+      console.log(data);
+      localStorage.setItem('whatsapp-clone-conversations', JSON.stringify(data));
+      this.setState({convPresent : true})
+      alert('new chat updated')
+
+    }
+    else {
+      this.setState({convPresent : true})
+    }
+
+                
 
   }
 
 
   render() {
+    const conv = JSON.parse(localStorage.getItem('whatsapp-clone-conversations'))
     if (!this.props.userInfo) { this.props.history.push('/') }
     const {userInfo} = this.props
     const dashboard = (
@@ -67,7 +93,7 @@ class App extends Component {
     
 
     return (
-      this.props.users ? dashboard : <div>Loading...</div>
+      this.props.users && this.state.convPresent ? dashboard : <div>Loading...</div>
     )
   }
 }

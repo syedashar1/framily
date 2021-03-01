@@ -53,7 +53,7 @@ export const listUsersByID = () => async (dispatch, getState) => {
 
 export const register = (user) => async (dispatch) => {
   dispatch({ type: USER_REGISTER_REQUEST, payload: { } });
-  console.log(user);
+  // console.log(user);
   try {
     const { data } = await Axios.post('/api/users/register', user );
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
@@ -94,7 +94,7 @@ export const userDetails = (_id) => async (dispatch , getState) => {
 
           console.log(_id);
           const { data } = await Axios.get(`/api/users/${_id}`);
-          console.log(data);
+          // console.log(data);
           dispatch({ type: USER_DETAILS_SUCCESS , payload: data });
           
         }
@@ -161,35 +161,6 @@ export const listUsers = ({ interestsdescription = '' , ethinicity = '' ,min = 0
 
 
 
-export const updateUserProfile = (user) => async (dispatch, getState) => {
-  dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
-  const {
-    userSignin: { userInfo },
-  } = getState();
-  try {
-    const { data } = await Axios.put(`/api/users/profile`, user, {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
-    });
-
-    dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
-    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-
-    
-
-
-
-    localStorage.setItem('userInfo', JSON.stringify(data));
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
-  }
-
-};
-
-
 
 export const updateUserProfileReset = () => (dispatch) => {
   dispatch({ type : USER_UPDATE_PROFILE_RESET })
@@ -197,7 +168,17 @@ export const updateUserProfileReset = () => (dispatch) => {
 
 
 
-export const signout = () => (dispatch) => {
+export const signout = () => async (dispatch , getState) => {
+
+  const userInfo = getState().userSignin.userInfo
+  if (localStorage.getItem('whatsapp-clone-conversations')) {
+    const conversation =  JSON.parse(localStorage.getItem('whatsapp-clone-conversations'))
+  
+  const { data } = await Axios.put(`/api/users/saveAll/${userInfo._id}` , conversation );
+  console.log(data);
+  alert(data)
+  
+  }
   localStorage.clear();
   dispatch({ type: USER_SIGNOUT });
 };
@@ -222,24 +203,28 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
 };
 
 
-//for admin
-export const updateUser = (user) => async (dispatch, getState) => {
-  dispatch({ type: USER_UPDATE_REQUEST });
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
   const {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put(`/api/users/${user._id}`, user, {
+    const { data } = await Axios.put(`/api/users/update/${userInfo._id}`, user, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
-    dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+
+    dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    dispatch({ type: USER_UPDATE_FAIL, payload: message });
+    dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
   }
+
 };
 
 
@@ -353,7 +338,7 @@ export const avaliableForChat = () => async (dispatch , getState) => {
 
   try {
     const { data } = await Axios.get(`/api/users/forchat/${userInfo._id}`);
-    console.log(data);
+    // console.log(data);
     dispatch({ type: LIST_FORCHAT_SUCCESS, payload: data });
   } catch (error) {
     const message =

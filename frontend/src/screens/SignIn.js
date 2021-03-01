@@ -39,7 +39,7 @@ render() {
         return (
         <div>
 
-                <button onClick={()=>{console.log(this.props.signinError)} }>click</button>
+                {/* <button onClick={()=>{console.log(this.props.signinError)} }>click</button> */}
 
                 <form className="form" onSubmit={this.submitHandler}>
                 <div>

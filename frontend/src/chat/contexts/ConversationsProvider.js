@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useContacts } from './ContactsProvider';
 import { useSocket } from './SocketProvider';
+import Axios from 'axios'
+
+
 
 const ConversationsContext = React.createContext()
 
@@ -59,10 +62,14 @@ export function ConversationsProvider({ id, children }) {
     return () => socket.off('receive-message')
   }, [socket, addMessageToConversation])
 
-  function sendMessage(recipients, text) {
+  async function sendMessage(recipients, text) {
     socket.emit('send-message', { recipients, text })
 
     addMessageToConversation({ recipients, text, sender: id })
+    console.log('this is run');
+    await Axios.put(`/api/users/msgtosend/${id}`, { text, recipients , sender : id });
+
+
   }
 
   const formattedConversations = conversations.map((conversation, index) => {

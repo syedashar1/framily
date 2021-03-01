@@ -42,10 +42,10 @@ class Navbar extends Component {
 
         
       <IconButton>
-      <Link style={{color:'#6b6b6b'}}  to="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
+      <a style={{color:'#6b6b6b'}}  href="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
 
                                 <span className="badge">{forChatUsers ? forChatUsers.length : '' }</span>
-        </Link>
+        </a>
         
       </IconButton>
         
@@ -69,7 +69,7 @@ class Navbar extends Component {
         <i className="fa fa-caret-down"></i>{' '}
         </Link>
                 <ul className="dropdown-content">
-                        <li> <Link  style={{color:'#6b6b6b'}} to="/profile"> Edit Profile </Link> </li>
+                        <li> <Link  style={{color:'#6b6b6b'}} to="/update"> Edit Profile </Link> </li>
                         <li> <Link  style={{color:'#6b6b6b'}} to="/likehistory"> like History </Link> </li>
                         <li> <Link  style={{color:'#6b6b6b'}} to="/" onClick={signout} > Sign Out </Link> </li>
                 </ul>

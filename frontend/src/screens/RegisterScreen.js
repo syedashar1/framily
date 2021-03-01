@@ -12,6 +12,9 @@ class RegisterScreen extends Component {
                         password : "" ,
                         confirmPassword : "" ,
 
+                        latitude : null , 
+                        longitude : null , 
+
                         P1name :"",
                         P1age  : 0 ,
                         P1interest :"",
@@ -25,10 +28,47 @@ class RegisterScreen extends Component {
                         P2ethinicity :"",
                         P2gender:"",
 
+
+                        C1name :"",
+                        C1age  : 0 ,
+                        C1interest :"",
+                        C1ethinicity :"",
+                        C1gender:"",
+
+                        C2name :"",
+                        C2age  : 0 ,
+                        C2interest :"",
+                        C2ethinicity :"",
+                        C2gender:"",
+
+                        C3name :"",
+                        C3age  : 0 ,
+                        C3interest :"",
+                        C3ethinicity :"",
+                        C3gender:"",
+
+                        C4name :"",
+                        C4age  : 0 ,
+                        C4interest :"",
+                        C4ethinicity :"",
+                        C4gender:"",
+
+
+
                         familyDescription : null , 
 
                         passwordNotMatched : false
                 }
+
+
+
+
+
+                this.getLocation = this.getLocation.bind(this)
+                this.getCoordinates = this.getCoordinates.bind(this)
+
+
+
         }
 
 
@@ -36,20 +76,49 @@ class RegisterScreen extends Component {
 
         
 
-        // async componentDidMount(){
-                
-        //         const redirect = this.props.location.search
-        //                 ? this.props.location.search.split('=')[1]
-        //                 : '/';
+        componentDidMount(){
                 
 
-        //                 if ( await this.props.userInfo) {
-        //                         this.props.history.push(redirect);
-        //                 }
+                this.getLocation()
+
+
+        }
 
 
 
-        // }
+
+
+        getLocation(){
+                if(navigator.geolocation){
+                        navigator.geolocation.getCurrentPosition(this.getCoordinates , this.showError)
+                }
+                else {
+                        alert('Geolocation is not supported by the browser')
+                }
+        }
+
+        getCoordinates(position){
+                this.setState({
+                        latitude : position.coords.latitude , 
+                        longitude : position.coords.longitude
+                })
+        }
+        showError(error) {
+                switch(error.code) {
+                  case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.")
+                    break;
+                  case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.")
+                    break;
+                  case error.TIMEOUT:
+                        alert("The request to get user location timed out.")
+                    break;
+                  default:
+                        alert("An unknown error occurred.")
+                    
+                }
+        }
 
 
 
@@ -61,11 +130,15 @@ class RegisterScreen extends Component {
                 if( this.state.password !== this.state.confirmPassword ){
                         this.setState({ passwordNotMatched : true })
                 }
+
                 else {
+                        this.setState({ passwordNotMatched : false })
 
                         const user = {
                                 email : this.state.email,
                                 password : this.state.password,
+
+
                                 parent1:{
                                         name:this.state.P1name,
                                         age : this.state.P1age,
@@ -80,6 +153,50 @@ class RegisterScreen extends Component {
                                         gender : this.state.P2gender,
                                         interests : this.state.P2interest,
                                 },
+
+
+
+
+                                child1:{
+                                        name  :this.state.C1name ,
+                                        age  : this.state.C1age ,
+                                        interests  : this.state.C1interest ,
+                                        ethnicity : this.state.C1ethinicity  ,
+                                        gender : this.state.C1gender 
+                                },
+
+                                child2:{
+                                        name  :this.state.C2name ,
+                                        age  : this.state.C2age ,
+                                        interests  : this.state.C2interest ,
+                                        ethnicity : this.state.C2ethinicity  ,
+                                        gender : this.state.C2gender 
+                                },
+
+                                child3:{
+                                        name  :this.state.C3name ,
+                                        age  : this.state.C3age ,
+                                        interests  : this.state.C3interest ,
+                                        ethnicity : this.state.C3ethinicity  ,
+                                        gender : this.state.C3gender 
+                                },
+
+                                child4:{
+                                        name  :this.state.C4name ,
+                                        age  : this.state.C4age ,
+                                        interests  : this.state.C4interest ,
+                                        ethnicity : this.state.C4ethinicity  ,
+                                        gender : this.state.C4gender 
+                                },
+
+
+
+                                location : {
+                                        latitude : this.state.latitude , 
+                                        longitude : this.state.longitude
+                                        
+                                } ,
+
 
                                 descriptions : this.state.familyDescription
                         }
@@ -110,6 +227,7 @@ render() {
                 <form className="form" onSubmit={this.submitHandler}>
                 <div>
                         <h1>Register a New User</h1>
+                        
                 </div>
                 
                 <div>
@@ -127,7 +245,7 @@ render() {
                 </div>
                 <div>
 
-                { this.state.passwordNotMatched && ( <div>password did not match</div> )
+                { this.state.passwordNotMatched && ( <div style={{color:'red'}} >password did not match</div> )
 
                 }
 
@@ -142,19 +260,19 @@ render() {
                 </div>
                 <div>
                 <label>Age</label>
-                <input type="number" placeholder="Enter Age" required onChange={(e) => this.setState({ P1age : e.target.value})}></input>
+                <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ P1age : e.target.value})}></input>
                 </div>
                 <div>
                 <label>Gender</label>
-                <input type="text" id="gender" placeholder="Gender" required onChange={(e) => this.setState({ P1gender : e.target.value})}></input>
+                <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ P1gender : e.target.value})}></input>
                 </div>
                 <div>
                 <label >Ethnicity</label>
-                <input type="text" id="Ethnicity" placeholder="Enter Ethnicity" required onChange={(e) => this.setState({ P1ethinicity : e.target.value})}></input>
+                <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ P1ethinicity : e.target.value})}></input>
                 </div>
                 <div>
                 <label >Interest</label>
-                <input type="text" id="Interest" placeholder="Enter your Interest" required onChange={(e) => this.setState({ P1interest : e.target.value})}></input>
+                <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ P1interest : e.target.value})}></input>
                 </div>
 
 
@@ -188,6 +306,71 @@ render() {
 
                 </div>
 
+
+
+                <div>
+                        <h1>For Child 1</h1>
+                
+                <div>
+                <label >Full Name</label>
+                <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ C1name : e.target.value})}></input>
+                </div>
+                <div>
+                <label>Age</label>
+                <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ C1age : e.target.value})}></input>
+                </div>
+                <div>
+                <label>Gender</label>
+                <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ C1gender : e.target.value})}></input>
+                </div>
+                <div>
+                <label >Ethnicity</label>
+                <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ C1ethinicity : e.target.value})}></input>
+                </div>
+                <div>
+                <label >Interest</label>
+                <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ C1interest : e.target.value})}></input>
+                </div>
+
+
+                </div>
+
+
+
+
+                <div>
+                        <h1>For Child 2</h1>
+                
+                <div>
+                <label >Full Name</label>
+                <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ C2name : e.target.value})}></input>
+                </div>
+                <div>
+                <label>Age</label>
+                <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ C2age : e.target.value})}></input>
+                </div>
+                <div>
+                <label>Gender</label>
+                <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ C2gender : e.target.value})}></input>
+                </div>
+                <div>
+                <label >Ethnicity</label>
+                <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ C2ethinicity : e.target.value})}></input>
+                </div>
+                <div>
+                <label >Interest</label>
+                <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ C2interest : e.target.value})}></input>
+                </div>
+
+
+                </div>
+
+
+
+
+
+
+
                 <div>
                 <h1>Family Description</h1>
                 <div>
@@ -208,7 +391,7 @@ render() {
                 
 
                 <label />
-                        <button className="primary" type="submit"> Sign In </button>
+                        <button className="primary" type="submit"> Sign Up </button>
                         
                 </div>
                 <div>
