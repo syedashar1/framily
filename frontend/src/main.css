@@ -144,6 +144,9 @@ a.brand {
 .row.center {
   justify-content: center;
 }
+.row.right {
+  justify-content  :right ;
+}
 .row.top {
   align-items: flex-start;
 }
@@ -404,6 +407,7 @@ main {
   border-radius: 0.5rem 0 0 0.5rem;
   border-right: none;
   margin-left: 0.5rem;
+  width: 150px;
 }
 
 
@@ -452,3 +456,15 @@ main {
 
 
 
+.backtotop{
+  width: 10.5em;
+  height: 10em;
+  background-color: rgb(243, 239, 239);
+  position: absolute;
+  top: -5.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  overflow: hidden;
+  
+}

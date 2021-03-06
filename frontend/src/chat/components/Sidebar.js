@@ -27,24 +27,20 @@ export default function Sidebar({ id }) {
           <Nav.Item>
             <Nav.Link eventKey={CONVERSATIONS_KEY}>Conversations</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey={CONTACTS_KEY}>Contacts</Nav.Link>
-          </Nav.Item>
+
         </Nav>
         <Tab.Content className="border-right overflow-auto flex-grow-1">
           <Tab.Pane eventKey={CONVERSATIONS_KEY}>
             <Conversations />
           </Tab.Pane>
-          <Tab.Pane eventKey={CONTACTS_KEY}>
-            <Contacts/>
-          </Tab.Pane>
+
         </Tab.Content>
         <div className="p-2 border-top border-right small">
           Your Id: <span className="text-muted">{userInfo._id}</span>
         </div>
-        <Button onClick={() => setModalOpen(true)} className="rounded-0">
+        {/* <Button onClick={() => setModalOpen(true)} className="rounded-0">
           New Conversation
-        </Button>
+        </Button> */}
       </Tab.Container>
 
       <Modal show={modalOpen} onHide={closeModal}>

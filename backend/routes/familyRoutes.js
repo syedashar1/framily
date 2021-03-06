@@ -443,6 +443,7 @@ familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
 familyRouter.get( '/:id' , expressAsyncHandler(async (req, res) => {
         console.log("getting 1 user");
         const user = await Family.findById(req.params.id);
+        console.log(user);
         res.send(user);
       })
 );
@@ -499,6 +500,8 @@ familyRouter.put( '/update/:id' , expressAsyncHandler(async (req, res) => {
     user.child4.gender = req.body.child4.gender  || user.child4.gender 
     user.child4.ethnicity = req.body.child4.ethnicity  || user.child4.ethnicity 
     user.child4.interests = req.body.child4.interests  || user.child4.interests
+
+    user.descriptions = req.body.descriptions || user.descriptions
 
 
     if (req.body.password) {

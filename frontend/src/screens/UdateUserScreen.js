@@ -181,6 +181,9 @@ class UpdateUserScreen extends Component {
                 } = this.state
 
 
+                if (this.props.success) { this.props.history.push('/profile') }
+
+
                 return (
                         <div>
                         {!user ? <div>Loading...</div> :
@@ -481,17 +484,10 @@ class UpdateUserScreen extends Component {
                         
         
                         <label />
-                                <button className="primary" type="submit"> Sign Up </button>
+                                <button className="primary" type="submit"> Update Family </button>
                                 
                         </div>
-                        <div>
-                                <label />
-                                <div>Already have an account ?{' '}
-                                        <Link to={`/signin`}>
-                                        Sign In
-                                        </Link>     
-                                </div>
-                        </div>
+
                                 </form>
         
         
@@ -512,7 +508,8 @@ export default connect(
         
         (state) => ({ 
                 userInfo : state.userSignin.userInfo ,
-                user : state.getDetails.user
+                user : state.getDetails.user ,
+                success : state.userUpdateProfile.success
         
         
         }),

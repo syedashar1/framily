@@ -1,0 +1,21 @@
+
+    
+input:focus { 
+        outline:none;
+        border-color:#9ecaed;
+        box-shadow:0 0 25px #9ecaed;
+}
+
+.form {
+        /* min-width: 400px; */
+        position: relative;
+        background-color: rgb(243, 239, 239);
+        border-radius: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        margin-top: 10px;
+}
+
+.upgap{
+        margin-top: 100px;
+}

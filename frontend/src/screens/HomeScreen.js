@@ -1,7 +1,7 @@
 import React, { Component , useEffect, useState } from 'react'
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 // import { Carousel } from 'react-responsive-carousel';
-import { Carousel } from 'react-bootstrap';
+import { Accordion, Card, Carousel } from 'react-bootstrap';
 import { listTopSellers , listUsers , like , userDetails} from '../actions/userActions';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
@@ -137,11 +137,17 @@ class HomeScreen extends Component {
 
                 return (
                         
-                        <div>
-                          <h1>this is home screen</h1>
-                          <div>
-                          <div className='row center' >
-                          <form className="search" onSubmit={this.submitHandler}>
+                        <div >
+                                
+                          <div className='row' >
+                          <div></div>
+        
+                          <Accordion>
+<Card><Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey="0"> <p>Search</p></Accordion.Toggle>
+        </Card.Header>
+        <Accordion.Collapse eventKey="0">
+        <Card.Body><form className="search" onSubmit={this.submitHandler}>
                         <div className="row">
                           <input type="text" name="q" id="q" onChange={(e) => this.setState({name : e.target.value})}
                           ></input>
@@ -149,9 +155,67 @@ class HomeScreen extends Component {
                             <i className="fa fa-search"></i>
                           </button>
                         </div>
-                      </form>
+                      </form></Card.Body>
+    </Accordion.Collapse>
+  </Card><Card>
+    <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey="1">
+        Age
+      </Accordion.Toggle>
+    </Card.Header>
+    <Accordion.Collapse eventKey="1">
+      <Card.Body>
+                          <ul>
+                          {prices.map((p) => (
+                            <li key={p.name}>
+                              <Link  to={this.getFilterUrl({ min: p.min , max: p.max })}
+                                className={ `${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''  } >
+                              {p.name}
+                              </Link>
+                            </li> ))}
+                            </ul>
+                            </Card.Body>
+    </Accordion.Collapse>
+  </Card>
+  <Card>
+    <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey="2">
+      Ethinicity
+      </Accordion.Toggle>
+    </Card.Header>
+    <Accordion.Collapse eventKey="2">
+      <Card.Body>
+                                <ul>
+                                {ethinicityList.map((r) => (
+                                        <li key={r.name}>
+                                        <Link to={this.getFilterUrl({ ethinicity : r.name })}
+                                        className={`${r.name}` === `${ethinicity}` ? 'active' : ''}
+                                        >
+                                                {r.name}
+                                                
+                                        </Link>
+                                        </li>
+                                ))}
+                                </ul></Card.Body>
+    </Accordion.Collapse>
+  </Card>
+</Accordion>
                           </div>
-                          <h3>Ages</h3>
+                          <div>
+                          <div className='row center' >
+
+
+                          {/* <form className="search" onSubmit={this.submitHandler}>
+                        <div className="row">
+                          <input type="text" name="q" id="q" onChange={(e) => this.setState({name : e.target.value})}
+                          ></input>
+                          <button className="primary" type="submit">
+                            <i className="fa fa-search"></i>
+                          </button>
+                        </div>
+                      </form> */}
+                          </div>
+                          {/* <h3>Ages</h3>
                           <ul>
                           {prices.map((p) => (
                             <li key={p.name}>
@@ -173,7 +237,7 @@ class HomeScreen extends Component {
                                         </Link>
                                         </li>
                                 ))}
-                                </ul>
+                                </ul> */}
                           </div>
 
 
@@ -187,7 +251,7 @@ class HomeScreen extends Component {
                         {!families || !user ? (<div>loading...</div>) : <div>
 
                                 {families.map((x) => (
-                        <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'600px' }} >
+                        <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'800px' }} >
                                 <p>{x._id}</p>
                                 <div className="card-body">
                                 <div className='row' >
@@ -211,6 +275,48 @@ class HomeScreen extends Component {
                                 }
 
 
+                                {x.child1 && x.child1.name && <div className='row' >
+                                <h1><Link to={`/families/${x._id}`} >Child 1</Link></h1>
+                                <h3>{x.child1.name}</h3>
+                                <h3>{x.child1.age}</h3>
+                                <h3>{x.child1.gender}</h3>
+                                <h3>{x.child1.ethnicity}</h3>
+                                <h3>{x.child1.interests}</h3>
+                                </div>
+                                }
+
+                                {x.child2 && x.child2.name && <div className='row' >
+                                <h1><Link to={`/families/${x._id}`} >Child 2</Link></h1>
+                                <h3>{x.child2.name}</h3>
+                                <h3>{x.child2.age}</h3>
+                                <h3>{x.child2.gender}</h3>
+                                <h3>{x.child2.ethnicity}</h3>
+                                <h3>{x.child2.interests}</h3>
+                                </div>
+                                }
+
+
+                                {x.child3 && x.child3.name && <div className='row' >
+                                <h1><Link to={`/families/${x._id}`} >Child 3</Link></h1>
+                                <h3>{x.child3.name}</h3>
+                                <h3>{x.child3.age}</h3>
+                                <h3>{x.child3.gender}</h3>
+                                <h3>{x.child3.ethnicity}</h3>
+                                <h3>{x.child3.interests}</h3>
+                                </div>
+                                }
+
+                                {x.child4 && x.child4.name && <div className='row' >
+                                <h1><Link to={`/families/${x._id}`} >Child 4</Link></h1>
+                                <h3>{x.child4.name}</h3>
+                                <h3>{x.child4.age}</h3>
+                                <h3>{x.child4.gender}</h3>
+                                <h3>{x.child4.ethnicity}</h3>
+                                <h3>{x.child4.interests}</h3>
+                                </div>
+                                }
+
+
                                 {x.location && x.location.latitude 
                                 && this.props.user.location 
                                 && this.props.user.location.latitude 
@@ -223,7 +329,7 @@ class HomeScreen extends Component {
 
                                 
 
-                                {x.descriptions && <div className='row' >
+                                {x.descriptions && <div className='row center' >
                                 <h1>{x.descriptions}</h1>
                                 </div>
                                 }

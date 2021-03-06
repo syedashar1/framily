@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { signin , signout , register } from '../actions/userActions' ;
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container , Row , Col } from 'react-bootstrap';
+import "./input.css"
 
 class RegisterScreen extends Component {
 
@@ -127,9 +130,19 @@ class RegisterScreen extends Component {
          submitHandler  = async (e)  => {
                 e.preventDefault()
 
+
+
                 if( this.state.password !== this.state.confirmPassword ){
                         this.setState({ passwordNotMatched : true })
+                        return
                 }
+
+                if(this.state.longitude === null){
+                        alert('you need to provide your current location to register an account')
+                        return
+                }
+
+                
 
                 else {
                         this.setState({ passwordNotMatched : false })
@@ -225,8 +238,8 @@ render() {
 
 
                 <form className="form" onSubmit={this.submitHandler}>
-                <div>
-                        <h1>Register a New User</h1>
+                <div className='text-center'>
+                        <h1>Register a New Family</h1>
                         
                 </div>
                 
@@ -242,140 +255,215 @@ render() {
                 <div>
                 <label htmlFor="confirmPassword">confirm Password</label>
                 <input type="password" id="confirmPassword" placeholder="Confirm password" required onChange={(e) => this.setState({ confirmPassword : e.target.value})}></input>
-                </div>
-                <div>
-
                 { this.state.passwordNotMatched && ( <div style={{color:'red'}} >password did not match</div> )
 
                 }
+                </div>
+                
+                <div style={{height:"100px"}}/>
 
-                <br></br><br></br><br></br><br></br>
+                <Container>
+                <Row>
 
-                <div>
+                
+
+                
+
+                <Col className="text-center">
                         <h1>For Parent 1</h1>
                 
-                <div>
-                <label >Full Name</label>
+                <div >
+                <p >Full Name</p>
                 <input type="text" id="full name" placeholder="Enter full name" required onChange={(e) => this.setState({ P1name : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Age</label>
+                <p>Age</p>
                 <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ P1age : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Gender</label>
+                <p>Gender</p>
                 <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ P1gender : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Ethnicity</label>
+                <p >Ethnicity</p>
                 <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ P1ethinicity : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Interest</label>
+                <p >Interest</p>
                 <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ P1interest : e.target.value})}></input>
                 </div>
 
 
-                </div>
+                </Col>
 
 
-                <div>
+                <Col className="text-center">
                         <h1>For Parent 2</h1>
                 
                 <div>
-                <label >Full Name</label>
+                <p >Full Name</p>
                 <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ P2name : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Age</label>
+                <p>Age</p>
                 <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ P2age : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Gender</label>
+                <p>Gender</p>
                 <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ P2gender : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Ethnicity</label>
+                <p >Ethnicity</p>
                 <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ P2ethinicity : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Interest</label>
+                <p >Interest</p>
                 <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ P2interest : e.target.value})}></input>
                 </div>
 
 
-                </div>
+                </Col>
 
+                </Row>
+                </Container>
 
+                <div style={{height:"100px"}}/>
 
-                <div>
+                <Container >
+               <Row>
+               <Col className="text-center">
                         <h1>For Child 1</h1>
                 
                 <div>
-                <label >Full Name</label>
+                <p >Full Name</p>
                 <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ C1name : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Age</label>
+                <p>Age</p>
                 <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ C1age : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Gender</label>
+                <p>Gender</p>
                 <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ C1gender : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Ethnicity</label>
+                <p >Ethnicity</p>
                 <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ C1ethinicity : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Interest</label>
+                <p >Interest</p>
                 <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ C1interest : e.target.value})}></input>
                 </div>
 
 
-                </div>
+                </Col>
 
 
 
 
-                <div>
+                <Col className="text-center">
                         <h1>For Child 2</h1>
                 
                 <div>
-                <label >Full Name</label>
+                <p >Full Name</p>
                 <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ C2name : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Age</label>
+                <p>Age</p>
                 <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ C2age : e.target.value})}></input>
                 </div>
                 <div>
-                <label>Gender</label>
+                <p>Gender</p>
                 <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ C2gender : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Ethnicity</label>
+                <p >Ethnicity</p>
                 <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ C2ethinicity : e.target.value})}></input>
                 </div>
                 <div>
-                <label >Interest</label>
+                <p >Interest</p>
                 <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ C2interest : e.target.value})}></input>
                 </div>
 
 
+                </Col>
+               </Row>
+               </Container>
+
+
+               <div style={{height:"80px"}}/>
+
+
+               <Container>
+               <Row>
+               <Col className="text-center">
+                        <h1>For Child 3</h1>
+                
+                <div>
+                <p >Full Name</p>
+                <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ C3name : e.target.value})}></input>
+                </div>
+                <div>
+                <p>Age</p>
+                <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ C3age : e.target.value})}></input>
+                </div>
+                <div>
+                <p>Gender</p>
+                <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ C3gender : e.target.value})}></input>
+                </div>
+                <div>
+                <p >Ethnicity</p>
+                <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ C3ethinicity : e.target.value})}></input>
+                </div>
+                <div>
+                <p >Interest</p>
+                <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ C3interest : e.target.value})}></input>
                 </div>
 
 
+                </Col>
 
 
 
 
-
+                <Col className="text-center">
+                        <h1>For Child 4</h1>
+                
                 <div>
+                <p >Full Name</p>
+                <input type="text" id="full name" placeholder="Enter full name"  onChange={(e) => this.setState({ C4name : e.target.value})}></input>
+                </div>
+                <div>
+                <p>Age</p>
+                <input type="number" placeholder="Enter Age"  onChange={(e) => this.setState({ C4age : e.target.value})}></input>
+                </div>
+                <div>
+                <p>Gender</p>
+                <input type="text" id="gender" placeholder="Gender"  onChange={(e) => this.setState({ C4gender : e.target.value})}></input>
+                </div>
+                <div>
+                <p >Ethnicity</p>
+                <input type="text" id="Ethnicity" placeholder="Enter Ethnicity"  onChange={(e) => this.setState({ C4ethinicity : e.target.value})}></input>
+                </div>
+                <div>
+                <p >Interest</p>
+                <input type="text" id="Interest" placeholder="Enter your Interest"  onChange={(e) => this.setState({ C4interest : e.target.value})}></input>
+                </div>
+
+
+                </Col>
+               </Row>
+               </Container>
+
+
+               <div style={{height:"80px"}}/>
+
+
+               
+                <div className="text-center">
                 <h1>Family Description</h1>
                 <div>
-              <label htmlFor="description">Description</label>
-              <textarea id="description" rows="5" cols="50" type="text"
+              <textarea id="description" rows="5" cols="70" type="text"
                 placeholder="Enter family description" onChange={(e) => this.setState({ familyDescription : e.target.value})}
               ></textarea>
             </div>
@@ -391,9 +479,12 @@ render() {
                 
 
                 <label />
-                        <button className="primary" type="submit"> Sign Up </button>
+                
+                <div><button className="primary" type="submit"> Sign Up </button></div>
                         
-                </div>
+                
+                
+
                 <div>
                         <label />
                         <div>Already have an account ?{' '}

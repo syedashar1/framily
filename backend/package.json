@@ -1,9 +1,8 @@
 {
   "name": "asharreact",
-  "homepage": ".",
+  "homepage": "http://.",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec node --experimental-modules server.js"
@@ -11,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.7"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -22,5 +21,6 @@
     "loadash": "^1.0.0",
     "multer": "^1.4.2",
     "socket.io": "^3.1.1"
-  }
+  },
+  "description": ""
 }
