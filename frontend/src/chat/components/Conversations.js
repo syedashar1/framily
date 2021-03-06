@@ -7,7 +7,9 @@ export default function Conversations() {
 
   return (
     <ListGroup variant="flush">
-      {conversations.map((conversation, index) => (
+      { conversations.length === 0 ? 
+      <div style={{textAlign : 'center' , marginTop : '20px' , fontSize :'30px'}} >You dont any contacts yet :/ </div> :
+      conversations.map((conversation, index) => (
         <ListGroup.Item
           key={index}
           action
