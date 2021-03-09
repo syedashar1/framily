@@ -5,10 +5,54 @@ import { generateToken, isAuth , isAdmin, isSellerOrAdmin } from '../utils.js';
 import bcrypt from 'bcrypt'
 import  ObjectId  from 'mongodb';
 import _ from'lodash';
+import shuffle from 'shuffle-array';
 
 const familyRouter = express.Router();
 
 
+
+
+
+familyRouter.put( '/imgdelete/:id', expressAsyncHandler(async (req, res) => {
+  
+    console.log(req.params.id);
+    const docid = req.body.x.url
+
+    const user = await Family.findById(req.params.id);
+
+    if( user.image1 === docid ){
+      user.image1 = undefined
+      console.log('removing image 1');
+    }
+    if( user.image2 === docid ){
+      console.log('removing image 2');
+      user.image2 = undefined
+    }
+    if( user.image3 === docid ){
+      user.image3 = undefined
+      console.log('removing image 3');
+    }
+    if( user.image4 === docid ){
+      user.image4 = undefined;
+      console.log('removing image 4');
+    }
+    if( user.image5 === docid ){
+      user.image5 = undefined
+      console.log('removing image 5');
+    }
+    if( user.image6 === docid ){
+      user.image6 = undefined
+      console.log('removing image 6');
+    }
+
+    await user.save()
+    // console.log('no image removed');
+
+
+    
+
+})
+);
 
 
 familyRouter.put( '/saveAll/:id', expressAsyncHandler(async (req, res) => {
@@ -161,33 +205,69 @@ familyRouter.put( '/addimages/:id' , expressAsyncHandler(async (req, res) => {
   const user = await Family.findById(req.params.id);
   // console.log(user);
   // console.log(docs);
-  if(user){
+  if(user && req.body.docs[0] ){
 
     if(req.body.docs[0]){
       user.image1 = req.body.docs[0].url
       console.log(user.image1);
     }
+    else{
+      user.image1 = null
+    }
+
+
     if(req.body.docs[1]){
       user.image2 = req.body.docs[1].url
       console.log(user.image2);
 
+      
+
     }
+    else{
+      user.image2 = null
+    }
+
+
+
     if(req.body.docs[2]){
       user.image3 = req.body.docs[2].url
       console.log(user.image3);
 
     }
+    else{
+      user.image3 = null
+    }
+
+
+
     if(req.body.docs[3]){
       user.image4 = req.body.docs[3].url
       console.log(user.image4);
 
     }
+    else{
+      user.image4 = null
+    }
+
+
+
     if(req.body.docs[4]){
       user.image5 = req.body.docs[4].url
     }
+    else{
+      user.image5 = null
+    }
+
+
+
     if(req.body.docs[5]){
       user.image6 = req.body.docs[5].url
     }
+    else{
+      user.image6 = null
+    }
+
+
 
     try {
       await user.save()
@@ -418,6 +498,22 @@ familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
         // const send  = usersP1.filter((v,i,a)=>a.findIndex( t =>(t._id === v._id))===i)
 
         var non_duplidated_data = _.uniqBy(usersP1, 'id'); 
+
+
+         let i = non_duplidated_data.length - 1;
+            for (; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              const temp = non_duplidated_data[i];
+              non_duplidated_data[i] = non_duplidated_data[j];
+              non_duplidated_data[j] = temp;
+            }
+
+
+
+
+        // shuffle(non_duplidated_data);
+
+
 
         res.send(non_duplidated_data);
 

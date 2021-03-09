@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { updateUserProfile , userDetails} from '../actions/userActions' ;
+import { motion } from 'framer-motion';
+import useFirestore from '../hooks/useFirestore';
+import DeleteImage from '../components/deleteImageGrid';
 
 
 
@@ -168,7 +171,7 @@ class UpdateUserScreen extends Component {
         render() {
 
 
-                const {user} = this.props
+                const {user , userInfo} = this.props
 
                 const {
                         P1name , P1age , P1ethinicity , P1gender , P1interest , 
@@ -181,6 +184,10 @@ class UpdateUserScreen extends Component {
                 } = this.state
 
 
+                
+
+
+
                 if (this.props.success) { this.props.history.push('/profile') }
 
 
@@ -189,10 +196,11 @@ class UpdateUserScreen extends Component {
                         {!user ? <div>Loading...</div> :
                         <div>
 
-
+                        <button onClick= {()=>console.log(user)}> log </button>
                         <form className="form" onSubmit={this.submitHandler}>
                         <div>
-                                <h1>Register a New User</h1>
+                                <h1>Update your family Profile</h1>
+                                
                                 
                         </div>
                         
@@ -475,7 +483,10 @@ class UpdateUserScreen extends Component {
                         </div>
         
         
-        
+                        <div>
+                        <p>Remove an image</p>
+                        <DeleteImage></DeleteImage>
+                        </div>
         
         
         

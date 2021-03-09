@@ -4,8 +4,11 @@ import { motion } from 'framer-motion';
 import Axios from 'axios';
 import {MAX_LIMIT_NOT_REACHED, MAX_LIMIT_REACHED} from '../types/familyTypes'
 import { useDispatch } from 'react-redux';
+import { projectFirestore } from '../firebase/config';
 
-const ImageGrid = ({ setSelectedImg }) => {
+
+
+const DeleteImage = ( ) => {
 
 
 
@@ -31,14 +34,30 @@ const ImageGrid = ({ setSelectedImg }) => {
                 }
                 if ( docs && docs.length !== 0){
                         Axios.put(`/api/users/addimages/${userInfo._id}`, {docs} );
-                        console.log(docs);
                 }
               }, [dispatch , docs ]);
 
         
 
 
-        
+        const deleteImageHandler = (x) => {
+
+                
+                const userInfo = localStorage.getItem('userInfo') ? 
+                JSON.parse(localStorage.getItem('userInfo'))
+                : null 
+
+                if (window.confirm('Are you sure?')) {
+                        const db = projectFirestore.collection(`${userInfo._id}`);
+                        db.doc(x.id).delete();
+                        Axios.put(`/api/users/imgdelete/${userInfo._id}` , {x} );
+
+             
+                }
+
+
+
+        }
 
         
 
@@ -51,7 +70,7 @@ const ImageGrid = ({ setSelectedImg }) => {
         <motion.div className="img-wrap" key={doc.id} 
           layout
           whileHover={{ opacity: 1 }}s
-          onClick={() => setSelectedImg(doc.url)}
+          onClick={() => deleteImageHandler(doc) }
         >
           <motion.img src={doc.url} alt="uploaded pic"
             initial={{ opacity: 0 }}
@@ -64,4 +83,4 @@ const ImageGrid = ({ setSelectedImg }) => {
   )
 }
 
-export default ImageGrid;
+export default DeleteImage;

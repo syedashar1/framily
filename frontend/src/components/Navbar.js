@@ -44,7 +44,7 @@ class Navbar extends Component {
       <IconButton>
       <a style={{color:'#6b6b6b'}}  href="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
 
-                                <span className="badge">{forChatUsers ? forChatUsers.length : '' }</span>
+                                <span className="badge">{ user && user.conversations ? user.conversations.length : '' }</span>
         </a>
         
       </IconButton>

@@ -270,7 +270,7 @@ render() {
                 
 
                 <Col className="text-center">
-                        <h1>For Parent 1</h1>
+                        <h1>Parent 1</h1>
                 
                 <div >
                 <p >Full Name</p>
@@ -298,7 +298,7 @@ render() {
 
 
                 <Col className="text-center">
-                        <h1>For Parent 2</h1>
+                        <h1>Parent 2</h1>
                 
                 <div>
                 <p >Full Name</p>
@@ -332,7 +332,7 @@ render() {
                 <Container >
                <Row>
                <Col className="text-center">
-                        <h1>For Child 1</h1>
+                        <h1>Child 1</h1>
                 
                 <div>
                 <p >Full Name</p>
@@ -362,7 +362,7 @@ render() {
 
 
                 <Col className="text-center">
-                        <h1>For Child 2</h1>
+                        <h1>Child 2</h1>
                 
                 <div>
                 <p >Full Name</p>
@@ -397,7 +397,7 @@ render() {
                <Container>
                <Row>
                <Col className="text-center">
-                        <h1>For Child 3</h1>
+                        <h1>Child 3</h1>
                 
                 <div>
                 <p >Full Name</p>
@@ -427,7 +427,7 @@ render() {
 
 
                 <Col className="text-center">
-                        <h1>For Child 4</h1>
+                        <h1>Child 4</h1>
                 
                 <div>
                 <p >Full Name</p>

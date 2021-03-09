@@ -1,7 +1,7 @@
 import React, { Component , useEffect, useState } from 'react'
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 // import { Carousel } from 'react-responsive-carousel';
-import { Accordion, Card, Carousel } from 'react-bootstrap';
+import { Accordion, Card, Carousel, Col, Container, Row , Image } from 'react-bootstrap';
 import { listTopSellers , listUsers , like , userDetails} from '../actions/userActions';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
@@ -13,7 +13,9 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Button } from 'react-bootstrap';
 import SearchBox from '../components/searchBox';
 import { getDistance , getPreciseDistance } from 'geolib';
-
+import Fade from "react-reveal/Fade";
+import loading from '../avatars/loading.gif';
+import no from '../avatars/no.png';
 
 class HomeScreen extends Component {
 
@@ -26,9 +28,13 @@ class HomeScreen extends Component {
                         currentUrl : '' ,
                         currentQuery :'',
 
-
+                        render: false
                 }
         }
+
+
+
+
 
 
         componentDidMount(){
@@ -36,14 +42,25 @@ class HomeScreen extends Component {
                 const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
 
 
-                console.log('here');
+                console.log('comppnent did mounted');
+
+                
+
                 this.props.listUsers({interestsdescription , ethinicity , min , max })
+
+
+                setTimeout(function() {
+                this.setState({render: true}) 
+                }.bind(this), 3000)
+                
                 this.props.userDetails()
                 
 
                 
                 this.setState({currentQuery : this.props.match.params.title })
                 this.setState({currentUrl : this.props.match.params})
+
+
 
 
         }
@@ -77,6 +94,21 @@ class HomeScreen extends Component {
                 return `/filter/interestsdescription/${interestsdescriptionFilter}/min/${filterMin}/max/${filterMax}/ethinicity/${ethinicityFilter}`;
               
             };
+
+
+        
+
+        shuffleArray = (array) => {
+                let i = array.length - 1;
+                for (; i > 0; i--) 
+                        {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        const temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+                        }
+        return array;
+        }
 
 
 
@@ -130,10 +162,11 @@ class HomeScreen extends Component {
                 
 
                 const {loading , families , userInfo , likeLoading , likeSuccess , likeError , likeLoadingID , user }  = this.props
-                const {listofLiked} = this.state
+                const {listofLiked , render} = this.state
 
                 const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
                 
+                // const shuffled = shuffleArray(this.props.families)
 
                 return (
                         
@@ -246,74 +279,77 @@ class HomeScreen extends Component {
                         
 
 
-
+ 
                 
-                        {!families || !user ? (<div>loading...</div>) : <div>
-
-                                {families.map((x) => (
-                        <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'800px' }} >
-                                <p>{x._id}</p>
-                                <div className="card-body">
-                                <div className='row' >
-                                <h1><Link to={`/families/${x._id}`} >Parent 1</Link></h1>
-                                <h3>{x.parent1.name}</h3>
-                                <h3>{x.parent1.age}</h3>
-                                <h3>{x.parent1.gender}</h3>
-                                <h3>{x.parent1.ethnicity}</h3>
-                                <h3>{x.parent1.interests}</h3>
-
-                                </div>
+                        {!families || !user || !render ? (<div className='cm-spinner' ></div>) : 
+                        
+                        <Container>
                                 
-                                {x.parent2 && x.parent2.name && <div className='row' >
-                                <h1><Link to={`/families/${x._id}`} >Parent 2</Link></h1>
-                                <h3>{x.parent2.name}</h3>
-                                <h3>{x.parent2.age}</h3>
-                                <h3>{x.parent2.gender}</h3>
-                                <h3>{x.parent2.ethnicity}</h3>
-                                <h3>{x.parent2.interests}</h3>
-                                </div>
+                                {families.map((x , i) => (
+                                
+                                <Fade  left={(i % 2 == 0) ? true : false} right={(i % 2 == 0) ? false : true}  cascade>
+                                
+                                <Row>
+
+                                
+
+                                <Col lg={{span : 8 , order : (i % 2 == 0) ? 0 : 12 }} >
+                                      
+                        <div key={x._id} className="form" style={{minWidth:300 , maxWidth:'700px' ,paddingRight:'20px' }} >
+                                
+                                
+                                <Container>
+                                <Row>
+                                <Col md={{span : 6 , order : (i % 2 == 0) ? 0 : 12 }}>
+
+                                <h2> 
+                                        <span>{x.parent1.name}</span> , <span>{x.parent1.age}</span> ,  <span>{x.parent1.gender}</span> , <span>{x.parent1.ethnicity}</span> 
+                                </h2>
+                                
+                                
+
+                                
+                                
+                                {x.parent2 && x.parent2.name && 
+                                
+                                <h2> 
+                                        <span>{x.parent2.name}</span> , <span>{x.parent2.age}</span> ,  <span>{x.parent2.gender}</span> , <span>{x.parent2.ethnicity}</span> 
+                                </h2>
+                                
                                 }
 
 
-                                {x.child1 && x.child1.name && <div className='row' >
-                                <h1><Link to={`/families/${x._id}`} >Child 1</Link></h1>
-                                <h3>{x.child1.name}</h3>
-                                <h3>{x.child1.age}</h3>
-                                <h3>{x.child1.gender}</h3>
-                                <h3>{x.child1.ethnicity}</h3>
-                                <h3>{x.child1.interests}</h3>
-                                </div>
+                                {x.child1 && x.child1.name && 
+                                
+                                <h2> 
+                                        <span>{x.child1.name}</span> , <span>{x.child1.age}</span> ,  <span>{x.child1.gender}</span> , <span>{x.child1.ethnicity}</span> 
+                                </h2>
+                                
                                 }
 
-                                {x.child2 && x.child2.name && <div className='row' >
-                                <h1><Link to={`/families/${x._id}`} >Child 2</Link></h1>
-                                <h3>{x.child2.name}</h3>
-                                <h3>{x.child2.age}</h3>
-                                <h3>{x.child2.gender}</h3>
-                                <h3>{x.child2.ethnicity}</h3>
-                                <h3>{x.child2.interests}</h3>
-                                </div>
+                                {x.child2 && x.child2.name && 
+                                
+                                <h2> 
+                                        <span>{x.child2.name}</span> , <span>{x.child2.age}</span> ,  <span>{x.child2.gender}</span> , <span>{x.child2.ethnicity}</span> 
+                                </h2>
+                                
                                 }
 
 
-                                {x.child3 && x.child3.name && <div className='row' >
-                                <h1><Link to={`/families/${x._id}`} >Child 3</Link></h1>
-                                <h3>{x.child3.name}</h3>
-                                <h3>{x.child3.age}</h3>
-                                <h3>{x.child3.gender}</h3>
-                                <h3>{x.child3.ethnicity}</h3>
-                                <h3>{x.child3.interests}</h3>
-                                </div>
+                                {x.child3 && x.child3.name && 
+                                
+                                <h2> 
+                                        <span>{x.child3.name}</span> , <span>{x.child3.age}</span> ,  <span>{x.child3.gender}</span> , <span>{x.child3.ethnicity}</span> 
+                                </h2>
+                                
                                 }
 
-                                {x.child4 && x.child4.name && <div className='row' >
-                                <h1><Link to={`/families/${x._id}`} >Child 4</Link></h1>
-                                <h3>{x.child4.name}</h3>
-                                <h3>{x.child4.age}</h3>
-                                <h3>{x.child4.gender}</h3>
-                                <h3>{x.child4.ethnicity}</h3>
-                                <h3>{x.child4.interests}</h3>
-                                </div>
+                                {x.child4 && x.child4.name && 
+                                
+                                <h2> 
+                                        <span>{x.child4.name}</span> , <span>{x.child4.age}</span> ,  <span>{x.child4.gender}</span> , <span>{x.child4.ethnicity}</span> 
+                                </h2>
+                                
                                 }
 
 
@@ -324,64 +360,32 @@ class HomeScreen extends Component {
                                 <h1>Distance : {this.distance(x.location.latitude , x.location.longitude)} meters </h1>
 
                                 </div>
-                                }               
+                                }                
 
 
                                 
 
-                                {x.descriptions && <div className='row center' >
-                                <h1>{x.descriptions}</h1>
-                                </div>
-                                }
-
-                                
-                                
-                        {/* {x.image1 && <div style={{height: '50%' , textAlign:'center'}}>
-                        <Carousel style={{minHeight:'200px' , maxHeight:'650px'}} >
-                        {x.image1 && <Carousel.Item>
-                        <img src={x.image1}style={{  maxHeight:'650px'}} className="d-block  w-100" alt=' img 1'  ></img> 
-                        </Carousel.Item>}
-                        {x.image2 && <Carousel.Item>
-                        <img src={x.image2}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block w-100 " alt=' img 2' ></img> 
-                        </Carousel.Item>}
-                        {x.image3 && <Carousel.Item>
-                        <img src={x.image3}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block  w-100" alt=' img 3'  ></img> 
-                        </Carousel.Item>}
-                        {x.image4 && <Carousel.Item>
-                        <img src={x.image4}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block w-100" alt=' img 4'  ></img> 
-                        </Carousel.Item>}
-                        {x.image5 && <Carousel.Item>
-                        <img src={x.image5}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block  w-100" alt=' img 5'  ></img> 
-                        </Carousel.Item>}
-                        {x.image6 && <Carousel.Item>
-                        <img src={x.image6}style={{minHeight:'200px' , maxHeight:'650px'}} className="d-block w-100 " alt=' img 6'  ></img> 
-                        </Carousel.Item>}
-                        </Carousel>
-                        </div> } */}
-
-                                
-
                                 
                                 
                                 
-                                <div className='row center' >
+                                <div className='text-center' >
                                 
                                 <Link to={`/families/${x._id}`} >
                                 <Button variant="outline-primary" size='lg'> <h3>View Family<ArrowForwardIosIcon/> </h3> </Button>{' '}
                                 </Link>
                                 
                                 {userInfo && 
-                                <p onClick ={() => this.likeHandler( x._id) } >
+                                <p onClick ={() => this.likeHandler( x._id) }  >
                                         {
                                         ((x.othersLiked.indexOf(userInfo._id) !== -1) ||  (likeSuccess && (likeSuccess === x._id)) || listofLiked.indexOf(x._id) !== -1 )
                                          ? <>
                                          <IconButton >
-                                        <FavoriteIcon  style={{color : "red" , fontSize : '50px'}} />
+                                        <FavoriteIcon  style={{color : "red" , fontSize : '70px' , margin:'10px'}} />
                                         </IconButton>
                                          </> :
                                          <>
                                          <IconButton>
-                                        <FavoriteBorderIcon  style={{color : "red" , fontSize : '50px'}} />
+                                        <FavoriteBorderIcon  style={{color : "red" , fontSize : '70px' , margin:'10px' }} />
                                         </IconButton>
                                          </>  }
                                 </p>
@@ -391,14 +395,37 @@ class HomeScreen extends Component {
 
                                 </div>
                                 
+                                </Col>
+
+
+                                
+                                <Col md={{span : 6 }} style={{padding : '0px'}}>
+                                <div >
+                                <img src={x.image1  ? x.image1 : no } className='img-fluid center text-center' ></img>
+                                </div>
+                                </Col>
+                                </Row>
+
+
+                                </Container>
+
+
+                                
+                        </div>
+                        
+                        
+                                </Col>
+
+                                <Col lg={{span : 4  }}></Col>
+
 
                                 
                                 
-                                </div>
-                        </div>
-                        
-                        ))}
-                        </div> }
+
+                                </Row> </Fade>  )  ) }
+                                
+                                
+                        </Container> }
 
                 </div>
                         
