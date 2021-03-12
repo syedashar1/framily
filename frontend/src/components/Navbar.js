@@ -32,7 +32,7 @@ class Navbar extends Component {
           return (
                         <div>
     <div className="header">
-    <Link style={{color:'#6b6b6b'}}  to="/"><h1 className="header__brand">Framily</h1></Link>
+    <Link style={{color:'#f6f6f6'}}  to="/"><h1 className="header__brand">Framily</h1></Link>
       
 
 
@@ -42,7 +42,7 @@ class Navbar extends Component {
 
         
       <IconButton>
-      <a style={{color:'#6b6b6b'}}  href="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
+      <a style={{color:'#f6f6f6'}}  href="/chat"><ChatIcon fontSize="large" className="heart__icon" />  
 
                                 <span className="badge">{ user && user.conversations ? user.conversations.length : '' }</span>
         </a>
@@ -50,7 +50,7 @@ class Navbar extends Component {
       </IconButton>
         
       <IconButton>
-      <Link style={{color:'#6b6b6b'}}  to="/matches"><FavoriteIcon fontSize="large" className="heart__icon" />  
+      <Link style={{color:'#f6f6f6'}}  to="/matches"><FavoriteIcon fontSize="large" className="heart__icon" />  
                                 {user && userInfo && user.newMatches !== 0 && !removeSuccess &&
                                 <span className="badge">{user.newLikes}</span>
         }  </Link>
@@ -64,14 +64,14 @@ class Navbar extends Component {
 
 
       <div className="dropdown">
-        <Link style={{color:'#6b6b6b'}} to="/profile" >
+        <Link style={{color:'#f6f6f6'}} to="/profile" >
                 <PersonIcon fontSize="large" className="account__icon" />
         <i className="fa fa-caret-down"></i>{' '}
         </Link>
-                <ul className="dropdown-content">
-                        <li> <Link  style={{color:'#6b6b6b'}} to="/update"> Edit Profile </Link> </li>
-                        <li> <Link  style={{color:'#6b6b6b'}} to="/likehistory"> like History </Link> </li>
-                        <li> <Link  style={{color:'#6b6b6b'}} to="/" onClick={signout} > Sign Out </Link> </li>
+                <ul className="dropdown-content" >
+                        <li> <Link  style={{color:'#f6f6f6'}} to="/update"> Edit Profile </Link> </li>
+                        <li> <Link  style={{color:'#f6f6f6'}} to="/likehistory"> like History </Link> </li>
+                        <li> <Link  style={{color:'#f6f6f6'}} to="/" onClick={signout} > Sign Out </Link> </li>
                 </ul>
         </div>
       </IconButton>

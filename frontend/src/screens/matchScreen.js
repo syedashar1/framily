@@ -9,6 +9,8 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Button } from 'react-bootstrap';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
+import Tada from 'react-reveal/Tada';
+import Fade from 'react-reveal/Fade'
 
 
 class matchScreen extends Component {
@@ -59,14 +61,19 @@ class matchScreen extends Component {
                           
                           <Container>
                         <Col>
-                        {!users ? (<div>loading...</div>) : <div>
+                        {!users ? (<div className='row center upgap' > <div className='cm-spinner' ></div> </div>) : <div>
                         
                         {users.length !== 0 ? 
-                        <div className='text-center' ><h1><b>You Got New Hearts !</b></h1></div> :
+                        <div className='text-center' >
+                        <Tada>
+                        <h1><b>You Got New Hearts !</b></h1>
+                        </Tada>
+                        </div> :
                         <div className='text-center'><h1><b>No new Hearts (yet) </b></h1></div>        
-                }
+                        }
 
                         {users.filter(x =>  (this.state.decidedFor.indexOf(x._id) === -1)   ).map((x) => (
+                        
                         <div key={x._id}  className="form" >
                                 
                                 
@@ -96,6 +103,8 @@ class matchScreen extends Component {
                                 
                                 
                         </div>
+                        
+                        
                         
                         ))}
                         </div> }

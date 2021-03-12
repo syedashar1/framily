@@ -3,7 +3,6 @@ html {
   box-sizing: border-box;
 }
 body {
-  background-color: rgb(244, 244, 244);
   margin: 0;
   height: 100vh;
   font-size: 1.6rem;
@@ -13,6 +12,7 @@ body {
   
 }
 #root {
+  background-color: rgb(248, 249, 250);
   height: 100%;
 }
 
@@ -459,7 +459,8 @@ main {
 .backtotop{
   width: 10.5em;
   height: 10em;
-  background-color: rgb(243, 239, 239);
+  box-shadow: rgba(60, 64,67, 0.3) 0 1px 2px 0   ;
+  background-color: white;
   position: absolute;
   top: -5.2rem;
   left: 50%;

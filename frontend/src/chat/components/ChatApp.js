@@ -64,7 +64,7 @@ class App extends Component {
       console.log(data);
       localStorage.setItem('whatsapp-clone-conversations', JSON.stringify(data));
       this.setState({convPresent : true})
-      alert('new chat updated')
+      // alert('new chat updated')
 
     }
     else {
@@ -93,7 +93,8 @@ class App extends Component {
     
 
     return (
-      this.props.users && this.state.convPresent ? dashboard : <div>Loading...</div>
+      this.props.users && this.state.convPresent ? dashboard : 
+      <div className='row center upgap' > <div className='cm-spinner' ></div> </div>
     )
   }
 }

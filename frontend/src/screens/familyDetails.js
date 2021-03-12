@@ -21,6 +21,8 @@ import girl1 from '../avatars/girl.png';
 import girl2 from '../avatars/girl2.png';
 import girl3 from '../avatars/girl3.png';
 import girl4 from '../avatars/girl4.png';
+import RubberBand from 'react-reveal/RubberBand';
+import Bounce from 'react-reveal/Bounce';
 
 class familyDetails extends Component {
 
@@ -46,15 +48,23 @@ class familyDetails extends Component {
 
                 return (
                         <div>
-                                {!user ? <div>Loading...</div> :
+                                {!user ? 
+                                <div className='row center upgap' > <div className='cm-spinner' ></div> </div>
+                                :
                                 <div>
                                 <div>
                           
                           <div className=" center">
-                        {!user && (<div>loading...</div>) } <div>
+                        {!user && (<div className='cm-spinner' ></div>) } <div>
 
                                 
-                        {user && user.parent1 && <p style={{textAlign:'center' , fontSize : '50px', marginTop:'80px'}} >{user.parent1.name}'s Family</p>}
+                        {user && user.parent1 && 
+                        
+                        <Bounce left>
+                        <p style={{textAlign:'center' , fontSize : '50px', marginTop:'80px'}} >{user.parent1.name}'s Family</p>
+                        </Bounce>
+                        
+                        }
 
                         <Container style={{textAlign:'center'}} >
                         <Row>
@@ -63,10 +73,12 @@ class familyDetails extends Component {
                         <Col lg={!user.parent2.name ? null : '6' }>
                         <div className="form upgap" >
                         <div><div className='backtotop'>
+                        <RubberBand>
                         <Image 
                         src={user.parent1.gender === 'male' || user.parent1.gender === 'Male' || user.parent1.gender === 'MALE' ? dad1 :
-                        user.parent1.gender === 'female' || user.parent1.gender === 'Female' || user.parent1.gender === 'FEMALE' ? mom : null } fluid></Image></div></div>
-
+                        user.parent1.gender === 'female' || user.parent1.gender === 'Female' || user.parent1.gender === 'FEMALE' ? mom : null } fluid></Image>
+                        </RubberBand>
+                        </div></div>
                                 
                                 <div className="card-body" >
                                 <h1><b>{user.parent1.name}</b></h1>
@@ -90,10 +102,12 @@ class familyDetails extends Component {
                         <div className="form upgap" >
                                 
                         <div><div className='backtotop'>
+                        <RubberBand>
                         <Image 
                         src={user.parent2.gender === 'male' || user.parent2.gender === 'Male' || user.parent2.gender === 'MALE' ? dad2 :
-                        user.parent2.gender === 'female' || user.parent2.gender === 'Female' || user.parent2.gender === 'FEMALE' ? mom : null } fluid></Image></div></div>
-
+                        user.parent2.gender === 'female' || user.parent2.gender === 'Female' || user.parent2.gender === 'FEMALE' ? mom : null } fluid></Image>
+                        </RubberBand>
+                        </div></div>
                                 
                                 <div className="card-body">
                                 <h1><b>{user.parent2.name}</b></h1>
@@ -116,10 +130,12 @@ class familyDetails extends Component {
 
                                 
                         <div><div className='backtotop'>
+                        <RubberBand>
                         <Image 
                         src={user.child1.gender === 'male' || user.child1.gender === 'Male' || user.child1.gender === 'MALE' ? boy1 :
-                        user.child1.gender === 'female' || user.child1.gender === 'Female' || user.child1.gender === 'FEMALE' ? girl1 : null } fluid></Image></div></div>
-
+                        user.child1.gender === 'female' || user.child1.gender === 'Female' || user.child1.gender === 'FEMALE' ? girl1 : null } fluid></Image>
+                        </RubberBand>
+                        </div></div>
                                 
                                 <div className="card-body">
                                 <h1><b>{user.child1.name}</b></h1>
@@ -142,10 +158,11 @@ class familyDetails extends Component {
                                 
 
                         <div><div className='backtotop'>
+                        <RubberBand>
                         <Image 
                         src={user.child2.gender === 'male' || user.child2.gender === 'Male' || user.child2.gender === 'MALE' ? boy2 :
-                        user.child2.gender === 'female' || user.child2.gender === 'Female' || user.child2.gender === 'FEMALE' ? girl2 : null } fluid></Image></div></div>
-
+                        user.child2.gender === 'female' || user.child2.gender === 'Female' || user.child2.gender === 'FEMALE' ? girl2 : null } fluid></Image>
+                        </RubberBand></div></div>
 
 
 
@@ -169,10 +186,12 @@ class familyDetails extends Component {
                                 
                         
                         <div><div className='backtotop'>
+                        <RubberBand>
                         <Image 
                         src={user.child3.gender === 'male' || user.child3.gender === 'Male' || user.child3.gender === 'MALE' ? boy3 :
-                        user.child3.gender === 'female' || user.child3.gender === 'Female' || user.child3.gender === 'FEMALE' ? girl3 : null } fluid></Image></div></div>
-
+                        user.child3.gender === 'female' || user.child3.gender === 'Female' || user.child3.gender === 'FEMALE' ? girl3 : null } fluid></Image>
+                        </RubberBand>
+                        </div></div>
 
 
                         
@@ -198,10 +217,13 @@ class familyDetails extends Component {
 
                         
                         <div><div className='backtotop'>
+                        <RubberBand>
                         <Image 
                         src={user.child4.gender === 'male' || user.child4.gender === 'Male' || user.child4.gender === 'MALE' ? boy4 :
-                        user.child4.gender === 'female' || user.child4.gender === 'Female' || user.child4.gender === 'FEMALE' ? girl4 : null } fluid></Image></div></div>
-
+                        user.child4.gender === 'female' || user.child4.gender === 'Female' || user.child4.gender === 'FEMALE' ? girl4 : null } fluid></Image>
+                        
+                        </RubberBand>
+                        </div></div>
                                 
                                 <div className="card-body">
                                 <h1><b>{user.child4.name}</b></h1>
@@ -221,9 +243,9 @@ class familyDetails extends Component {
 
 
                         {user && user.descriptions && 
-                        <div className="form" >
+                        <div className="form upgap" >
                                 
-                        <div className="card-body">
+                        <div className="card-body text-center">
                         <h1>{user.descriptions}</h1>
 
                         <div>
@@ -269,28 +291,30 @@ class familyDetails extends Component {
                         
 
 
+                        <Fade>
                         {user.image1 && <div className="card" >
                         <Carousel style={{minHeight:'650px'}} >
                         {user.image1 && <Carousel.Item>
-                        <img src={user.image1}style={{  minHeight:'650px'  , maxHeight:'95vh'}} className="d-block  w-100" alt=' img 1'  ></img> 
+                        <img src={user.image1}style={{  minHeight:'650px'  , maxHeight:'90vh'}} className="d-block  w-100" alt=' img 1'  ></img> 
                         </Carousel.Item>}
                         {user.image2 && <Carousel.Item>
-                        <img src={user.image2}style={{  minHeight:'650px'  , maxHeight:'95vh'}} className="d-block w-100 " alt=' img 2' ></img> 
+                        <img src={user.image2}style={{  minHeight:'650px'  , maxHeight:'90vh'}} className="d-block w-100 " alt=' img 2' ></img> 
                         </Carousel.Item>}
                         {user.image3 && <Carousel.Item>
-                        <img src={user.image3}style={{  minHeight:'650px'  , maxHeight:'95vh'}} className="d-block  w-100" alt=' img 3'  ></img> 
+                        <img src={user.image3}style={{  minHeight:'650px'  , maxHeight:'90vh'}} className="d-block  w-100" alt=' img 3'  ></img> 
                         </Carousel.Item>}
                         {user.image4 && <Carousel.Item>
-                        <img src={user.image4}style={{  minHeight:'650px'  , maxHeight:'95vh'}} className="d-block w-100" alt=' img 4'  ></img> 
+                        <img src={user.image4}style={{  minHeight:'650px'  , maxHeight:'90vh'}} className="d-block w-100" alt=' img 4'  ></img> 
                         </Carousel.Item>}
                         {user.image5 && <Carousel.Item>
-                        <img src={user.image5}style={{  minHeight:'650px'  , maxHeight:'95vh'}} className="d-block  w-100" alt=' img 5'  ></img> 
+                        <img src={user.image5}style={{  minHeight:'650px'  , maxHeight:'90vh'}} className="d-block  w-100" alt=' img 5'  ></img> 
                         </Carousel.Item>}
                         {user.image6 && <Carousel.Item>
-                        <img src={user.image6} style={{  minHeight:'650px'  , maxHeight:'95vh'}} className="d-block w-100 " alt=' img 6'  ></img> 
+                        <img src={user.image6} style={{  minHeight:'650px'  , maxHeight:'90vh'}} className="d-block w-100 " alt=' img 6'  ></img> 
                         </Carousel.Item>}
                         </Carousel>
                         </div> }
+                        </Fade>
 
         
         </div>

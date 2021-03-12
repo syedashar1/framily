@@ -13,7 +13,6 @@ import Home from './screens/Home';
 import familyDetails from './screens/familyDetails';
 import chatScreen from './screens/chatScreen';
 import ChatApp from './chat/components/ChatApp'
-import map from './screens/map';
 import UpdateUserScreen from './screens/UdateUserScreen'
 class App extends React.Component {
 
@@ -43,9 +42,7 @@ class App extends React.Component {
                 <Route path="/signin" component={SignIn} exact></Route>
                 <Route path="/register" component={RegisterScreen}></Route>
                 <Route path="/families/:id" component={familyDetails}></Route>
-                <Route path="/forchat" component={chatScreen}></Route>
                 <Route path="/chat" component={ChatApp}></Route>
-                <Route path="/map" component={map}></Route>
                 <Route path="/update" component={UpdateUserScreen}></Route>
                 <Route 
                 path="/filter/interestsdescription/:interestsdescription/min/:min/max/:max/ethinicity/:ethinicity"
@@ -55,7 +52,7 @@ class App extends React.Component {
                 
 
             </main>
-            <footer style={{background:'white',color:'grey'}} className="row center">All right reserved</footer>
+            <footer style={{backgroundColor :' #023246' ,color:'#f6f6f6'}} className="row center">All right reserved</footer>
         </div>
         </BrowserRouter>
 

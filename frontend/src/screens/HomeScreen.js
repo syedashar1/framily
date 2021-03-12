@@ -16,6 +16,8 @@ import { getDistance , getPreciseDistance } from 'geolib';
 import Fade from "react-reveal/Fade";
 import loading from '../avatars/loading.gif';
 import no from '../avatars/no.png';
+import Bounce from 'react-reveal/Bounce';
+import Pulse from 'react-reveal/Pulse';
 
 class HomeScreen extends Component {
 
@@ -25,10 +27,10 @@ class HomeScreen extends Component {
                 this.state = {
                         listofLiked : [] , 
                         name : '' , 
-                        currentUrl : '' ,
-                        currentQuery :'',
+                        currentUrl : {} ,
+                        
 
-                        render: false
+                        rendered: false
                 }
         }
 
@@ -46,19 +48,25 @@ class HomeScreen extends Component {
 
                 
 
+
+                
                 this.props.listUsers({interestsdescription , ethinicity , min , max })
+                
 
 
                 setTimeout(function() {
                 this.setState({render: true}) 
                 }.bind(this), 3000)
+
+
                 
                 this.props.userDetails()
                 
 
                 
-                this.setState({currentQuery : this.props.match.params.title })
+                
                 this.setState({currentUrl : this.props.match.params})
+                this.setState({render:true})
 
 
 
@@ -140,7 +148,7 @@ class HomeScreen extends Component {
                         {  name: 'All', min: 0, max: 0, },
                         { name: `18 to 25`, min: 18, max: 25, },
                         { name: `25 to 35`, min: 25, max: 35, },
-                        { name: `35 and above`, min: 40, max: 100, },
+                        { name: `35 and above`, min: 35, max: 150, },
                 ]
 
                 const ethinicityList = [
@@ -151,12 +159,18 @@ class HomeScreen extends Component {
                         { name: 'Latino' },
                       
                         { name: 'African American' },
+
                         { name: 'Christian' },
+                        { name: 'Arab' },
                 ]
 
 
-                if(this.props.match.params !== this.state.currentUrl ){
-                        this.setState({currentQuery : this.props.match.params.title })
+                if(this.props.match.params != this.state.currentUrl && this.props.families  ){
+
+                        console.log('hereeeee');
+                        console.log(this.props.match.params);
+                        console.log(this.state.currentUrl);
+                        this.setState({currentUrl : this.props.match.params})
                         this.componentDidMount()
                 }
                 
@@ -238,39 +252,9 @@ class HomeScreen extends Component {
                           <div className='row center' >
 
 
-                          {/* <form className="search" onSubmit={this.submitHandler}>
-                        <div className="row">
-                          <input type="text" name="q" id="q" onChange={(e) => this.setState({name : e.target.value})}
-                          ></input>
-                          <button className="primary" type="submit">
-                            <i className="fa fa-search"></i>
-                          </button>
-                        </div>
-                      </form> */}
+                          
                           </div>
-                          {/* <h3>Ages</h3>
-                          <ul>
-                          {prices.map((p) => (
-                            <li key={p.name}>
-                              <Link  to={this.getFilterUrl({ min: p.min , max: p.max })}
-                                className={ `${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''  } >
-                              {p.name}
-                              </Link>
-                            </li> ))}
-                            </ul>
-                            <h3>Select Ethinicity</h3>
-                                <ul>
-                                {ethinicityList.map((r) => (
-                                        <li key={r.name}>
-                                        <Link to={this.getFilterUrl({ ethinicity : r.name })}
-                                        className={`${r.name}` === `${ethinicity}` ? 'active' : ''}
-                                        >
-                                                {r.name}
-                                                
-                                        </Link>
-                                        </li>
-                                ))}
-                                </ul> */}
+                          
                           </div>
 
 
@@ -281,7 +265,7 @@ class HomeScreen extends Component {
 
  
                 
-                        {!families || !user || !render ? (<div className='cm-spinner' ></div>) : 
+                        {!families || !user  ? (<div className='cm-spinner' ></div>) : 
                         
                         <Container>
                                 
@@ -295,12 +279,12 @@ class HomeScreen extends Component {
 
                                 <Col lg={{span : 8 , order : (i % 2 == 0) ? 0 : 12 }} >
                                       
-                        <div key={x._id} className="form" style={{minWidth:300 , maxWidth:'700px' ,paddingRight:'20px' }} >
+                        <div key={x._id} className="form" style={{minWidth:300 , maxWidth:'750px' ,paddingRight:'20px',borderRadius:'7px' }} >
                                 
                                 
                                 <Container>
                                 <Row>
-                                <Col md={{span : 6 , order : (i % 2 == 0) ? 0 : 12 }}>
+                                <Col md={{span : 6 , order : (i % 2 == 0) ? 0 : 12 }} className={ (i % 2 == 0) ? 'lineright' : 'lineleft' } >
 
                                 <h2> 
                                         <span>{x.parent1.name}</span> , <span>{x.parent1.age}</span> ,  <span>{x.parent1.gender}</span> , <span>{x.parent1.ethnicity}</span> 
@@ -375,18 +359,20 @@ class HomeScreen extends Component {
                                 </Link>
                                 
                                 {userInfo && 
-                                <p onClick ={() => this.likeHandler( x._id) }  >
+                                <p onClick ={() => this.likeHandler( x._id) } style={{marginTop:'20px'}}  >
                                         {
                                         ((x.othersLiked.indexOf(userInfo._id) !== -1) ||  (likeSuccess && (likeSuccess === x._id)) || listofLiked.indexOf(x._id) !== -1 )
                                          ? <>
-                                         <IconButton >
-                                        <FavoriteIcon  style={{color : "red" , fontSize : '70px' , margin:'10px'}} />
-                                        </IconButton>
+                                         < >
+                                        <Bounce>
+                                        <FavoriteIcon  className='uibutton' style={{color : "red" , fontSize : '70px' , margin:'10px'}} />
+                                        </Bounce>
+                                        </>
                                          </> :
                                          <>
-                                         <IconButton>
-                                        <FavoriteBorderIcon  style={{color : "red" , fontSize : '70px' , margin:'10px' }} />
-                                        </IconButton>
+                                         <>
+                                        <FavoriteBorderIcon className='uibutton' style={{color : "red" , fontSize : '70px' , margin:'10px' }} />
+                                        </>
                                          </>  }
                                 </p>
                                 
@@ -399,9 +385,11 @@ class HomeScreen extends Component {
 
 
                                 
-                                <Col md={{span : 6 }} style={{padding : '0px'}}>
+                                <Col md={{span : 6 }} style={{paddingLeft : '20px' , overflow : 'hidden'}}>
                                 <div >
+                                <Fade left={(i % 2 == 0) ? true : false} right={(i % 2 == 0) ? false : true}  cascade>
                                 <img src={x.image1  ? x.image1 : no } className='img-fluid center text-center' ></img>
+                                </Fade>
                                 </div>
                                 </Col>
                                 </Row>

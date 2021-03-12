@@ -41,9 +41,9 @@ render() {
 
                 {/* <button onClick={()=>{console.log(this.props.signinError)} }>click</button> */}
 
-                <form className="form" onSubmit={this.submitHandler}>
+                <form className="form text-center" style={{maxWidth:'360px' , marginTop:100}} onSubmit={this.submitHandler}>
                 <div>
-                        <h1>Sign In</h1>
+                        <h1><b>WELCOME</b></h1>
                 </div>
                 <div>
                 <label htmlFor="email">Email address</label>
@@ -54,9 +54,9 @@ render() {
                 <input type="password" id="password" placeholder="Enter password" required onChange={(e) => this.setState({ password : e.target.value})}></input>
                 { this.props.signinError && (<>incorrect email or password</>)}
                 </div>
-                <div>
+                <div className='row center'>
                 <label />
-                        <button className="primary" type="submit"> Sign In </button>
+                        <button style={{width:'100px'}} className="primary " type="submit"> Sign In </button>
                         
                 </div>
                 <div>

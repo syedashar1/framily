@@ -269,7 +269,7 @@ render() {
 
                 
 
-                <Col className="text-center">
+                <Col className="text-center lineright">
                         <h1>Parent 1</h1>
                 
                 <div >
@@ -331,7 +331,7 @@ render() {
 
                 <Container >
                <Row>
-               <Col className="text-center">
+               <Col className="text-center lineright">
                         <h1>Child 1</h1>
                 
                 <div>
@@ -396,7 +396,7 @@ render() {
 
                <Container>
                <Row>
-               <Col className="text-center">
+               <Col className="text-center lineright">
                         <h1>Child 3</h1>
                 
                 <div>

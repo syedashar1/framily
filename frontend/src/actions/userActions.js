@@ -176,7 +176,6 @@ export const signout = () => async (dispatch , getState) => {
   
   const { data } = await Axios.put(`/api/users/saveAll/${userInfo._id}` , conversation );
   console.log(data);
-  alert(data)
   
   }
   localStorage.clear();

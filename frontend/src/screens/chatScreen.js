@@ -33,7 +33,7 @@ class chatScreen extends Component {
                         <div>
                           <h1><b>Chat list</b></h1>
                           <div className="row center">
-                        {!users ? (<div>loading...</div>) : <div>
+                        {!users ? (<div className='cm-spinner' ></div>) : <div>
 
                                 {users.map((x) => (
                         <div key={x._id} className="card" style={{background:"lightGrey" , minWidth:300 , maxWidth:'600px' }} >

@@ -4,24 +4,26 @@ a {
 }
 
 .header {
-  background-color: white;
+  background-color: #023246;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0rem 1.2rem;
   font-family: 'Montserrat', sans-serif;
-  color: rgb(66, 66, 66);
+  color: rgb(235, 238, 241);
   border-bottom: 1px solid rgb(212, 212, 212);
 }
 .header__brand {
   font-size: 2.2rem;
   letter-spacing: 0.3rem;
+  color: #f6f6f6;
   cursor: pointer;
+  text-decoration: none;
 }
 .account__icon,
 .heart__icon {
   margin: 0 0.5rem;
-  cursor: pointer;
+  cursor: pointer;color: #f6f6f6;
 }
 
 .header__button {
@@ -29,7 +31,7 @@ a {
 }
 
 Link {
-  color: rgb(66, 66, 66);
+  color: rgb(241, 237, 237);
 
 }
 
@@ -41,7 +43,7 @@ Link {
         min-width: 12rem;
         padding: 1rem;
         z-index: 1;
-        background-color:white;
+        background-color: #023246;;color: #f6f6f6;
         margin: 0;
         margin-top: 0.4rem;
         border-radius: 0.5rem;
