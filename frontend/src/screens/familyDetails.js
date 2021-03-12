@@ -21,6 +21,7 @@ import girl1 from '../avatars/girl.png';
 import girl2 from '../avatars/girl2.png';
 import girl3 from '../avatars/girl3.png';
 import girl4 from '../avatars/girl4.png';
+import colon from '../avatars/colon.png';
 import RubberBand from 'react-reveal/RubberBand';
 import Bounce from 'react-reveal/Bounce';
 
@@ -244,9 +245,16 @@ class familyDetails extends Component {
 
                         {user && user.descriptions && 
                         <div className="form upgap" >
-                                
+                        <div><div className='backtotop'>
+                        <RubberBand>
+                        <Image 
+                        src={colon}
+                        fluid></Image>
+                        
+                        </RubberBand>
+                        </div></div>
                         <div className="card-body text-center">
-                        <h1>{user.descriptions}</h1>
+                        <h1><i>{user.descriptions}</i></h1>
 
                         <div>
 
@@ -273,14 +281,16 @@ class familyDetails extends Component {
                                         {
                                         ((user.othersLiked.indexOf(userInfo._id) !== -1) ||  (likeSuccess && (likeSuccess === user._id)) )
                                          ? <>
-                                         <IconButton edge={false} >
-                                        <FavoriteIcon  style={{color : "red" , fontSize : '150px'}} />
-                                        </IconButton>
+                                         
+                                        <Bounce>
+                                        <FavoriteIcon style={{color : "red" , fontSize : '150px'}} />
+                                        </Bounce>
+                                                
                                          </> :
                                          <>
-                                         <IconButton edge={false} >
-                                        <FavoriteBorderIcon  style={{color : "red" , fontSize : '150px'}} />
-                                        </IconButton>
+                                         
+                                        <FavoriteBorderIcon className='uibutton' style={{color : "red" , fontSize : '150px'}} />
+                                        
                                          </>  }
                                 </p>
                                 

@@ -191,14 +191,14 @@ class HomeScreen extends Component {
         
                           <Accordion>
 <Card><Card.Header>
-      <Accordion.Toggle as={Button} variant="link" eventKey="0"> <p>Search</p></Accordion.Toggle>
+      <Accordion.Toggle as={Button} variant="" eventKey="0"> <p>Search</p></Accordion.Toggle>
         </Card.Header>
         <Accordion.Collapse eventKey="0">
         <Card.Body><form className="search" onSubmit={this.submitHandler}>
                         <div className="row">
                           <input type="text" name="q" id="q" onChange={(e) => this.setState({name : e.target.value})}
                           ></input>
-                          <button className="primary" type="submit">
+                          <button className="primary" style={{backgroundColor:'#287094' , color :'white'}} type="submit">
                             <i className="fa fa-search"></i>
                           </button>
                         </div>
@@ -206,8 +206,8 @@ class HomeScreen extends Component {
     </Accordion.Collapse>
   </Card><Card>
     <Card.Header>
-      <Accordion.Toggle as={Button} variant="link" eventKey="1">
-        Age
+      <Accordion.Toggle as={Button} variant="" eventKey="1">
+        <p>Age</p>
       </Accordion.Toggle>
     </Card.Header>
     <Accordion.Collapse eventKey="1">
@@ -226,8 +226,8 @@ class HomeScreen extends Component {
   </Card>
   <Card>
     <Card.Header>
-      <Accordion.Toggle as={Button} variant="link" eventKey="2">
-      Ethinicity
+      <Accordion.Toggle as={Button} variant="" eventKey="2">
+      <p>Ethinicity</p>
       </Accordion.Toggle>
     </Card.Header>
     <Accordion.Collapse eventKey="2">
@@ -287,7 +287,8 @@ class HomeScreen extends Component {
                                 <Col md={{span : 6 , order : (i % 2 == 0) ? 0 : 12 }} className={ (i % 2 == 0) ? 'lineright' : 'lineleft' } >
 
                                 <h2> 
-                                        <span>{x.parent1.name}</span> , <span>{x.parent1.age}</span> ,  <span>{x.parent1.gender}</span> , <span>{x.parent1.ethnicity}</span> 
+                                        <span><b>{x.parent1.name}</b></span> , <span>{x.parent1.age}</span> ,  <span>{x.parent1.gender}</span> , <span>{x.parent1.ethnicity}</span> 
+                                        , <span><i style={{fontSize:'20px' , color:'#287094'}}>{x.parent1.interests}</i></span> 
                                 </h2>
                                 
                                 
@@ -297,7 +298,8 @@ class HomeScreen extends Component {
                                 {x.parent2 && x.parent2.name && 
                                 
                                 <h2> 
-                                        <span>{x.parent2.name}</span> , <span>{x.parent2.age}</span> ,  <span>{x.parent2.gender}</span> , <span>{x.parent2.ethnicity}</span> 
+                                        <span><b>{x.parent2.name}</b></span> , <span>{x.parent2.age}</span> ,  <span>{x.parent2.gender}</span> , <span>{x.parent2.ethnicity}</span> 
+                                        , <span><i style={{fontSize:'20px' , color:'#287094'}}>{x.parent2.interests}</i></span> 
                                 </h2>
                                 
                                 }
@@ -306,7 +308,8 @@ class HomeScreen extends Component {
                                 {x.child1 && x.child1.name && 
                                 
                                 <h2> 
-                                        <span>{x.child1.name}</span> , <span>{x.child1.age}</span> ,  <span>{x.child1.gender}</span> , <span>{x.child1.ethnicity}</span> 
+                                        <span><b>{x.child1.name}</b></span> , <span>{x.child1.age}</span> ,  <span>{x.child1.gender}</span> , <span>{x.child1.ethnicity}</span> 
+                                        , <span><i style={{fontSize:'20px' , color:'#287094'}}>{x.child1.interests}</i></span> 
                                 </h2>
                                 
                                 }
@@ -314,7 +317,8 @@ class HomeScreen extends Component {
                                 {x.child2 && x.child2.name && 
                                 
                                 <h2> 
-                                        <span>{x.child2.name}</span> , <span>{x.child2.age}</span> ,  <span>{x.child2.gender}</span> , <span>{x.child2.ethnicity}</span> 
+                                        <span><b>{x.child2.name}</b></span> , <span>{x.child2.age}</span> ,  <span>{x.child2.gender}</span> , <span>{x.child2.ethnicity}</span> 
+                                        , <span><i style={{fontSize:'20px' , color:'#287094'}}>{x.child2.interests}</i></span> 
                                 </h2>
                                 
                                 }
@@ -323,7 +327,8 @@ class HomeScreen extends Component {
                                 {x.child3 && x.child3.name && 
                                 
                                 <h2> 
-                                        <span>{x.child3.name}</span> , <span>{x.child3.age}</span> ,  <span>{x.child3.gender}</span> , <span>{x.child3.ethnicity}</span> 
+                                        <span><b>{x.child3.name}</b></span> , <span>{x.child3.age}</span> ,  <span>{x.child3.gender}</span> , <span>{x.child3.ethnicity}</span> 
+                                        , <span><i style={{fontSize:'20px' , color:'#287094'}}>{x.child3.interests}</i></span> 
                                 </h2>
                                 
                                 }
@@ -331,7 +336,8 @@ class HomeScreen extends Component {
                                 {x.child4 && x.child4.name && 
                                 
                                 <h2> 
-                                        <span>{x.child4.name}</span> , <span>{x.child4.age}</span> ,  <span>{x.child4.gender}</span> , <span>{x.child4.ethnicity}</span> 
+                                        <span><b>{x.child4.name}</b></span> , <span>{x.child4.age}</span> ,  <span>{x.child4.gender}</span> , <span>{x.child4.ethnicity}</span> 
+                                        , <span><i style={{fontSize:'20px' , color:'#287094'}}>{x.child4.interests}</i></span> 
                                 </h2>
                                 
                                 }
@@ -355,7 +361,8 @@ class HomeScreen extends Component {
                                 <div className='text-center' >
                                 
                                 <Link to={`/families/${x._id}`} >
-                                <Button variant="outline-primary" size='lg'> <h3>View Family<ArrowForwardIosIcon/> </h3> </Button>{' '}
+                                <Button variant="outline-light" style={{backgroundColor:'#287094', color:'white' , marginTop:'20px'}} size='lg'> 
+                                <h3>View Family<ArrowForwardIosIcon/> </h3> </Button>{' '}
                                 </Link>
                                 
                                 {userInfo && 
@@ -365,7 +372,7 @@ class HomeScreen extends Component {
                                          ? <>
                                          < >
                                         <Bounce>
-                                        <FavoriteIcon  className='uibutton' style={{color : "red" , fontSize : '70px' , margin:'10px'}} />
+                                        <FavoriteIcon style={{color : "red" , fontSize : '70px' , margin:'10px'}} />
                                         </Bounce>
                                         </>
                                          </> :

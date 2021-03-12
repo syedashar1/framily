@@ -17,6 +17,8 @@ body{
 }
 
 /* upload form styles */
+
+
 .imgUpload{
   margin: 30px auto 10px;
   text-align: center;
@@ -25,21 +27,29 @@ body{
   height: 0;
   width: 0;
   opacity: 0;
+  padding: 0px;
+  padding-top: 15px;
 }
 .imgUploadLabel{
   display: block;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--primary);
+  width: 75px;
+  height: 75px;
+  border: 1px solid #287094;
   border-radius: 50%;
   margin: 10px auto;
   line-height: 30px;
-  color: var(--primary);
+  color: #287094;
+  color: white;
   font-weight: bold;
   font-size: 24px;
+  background-color:  #287094;
+  margin-top: 100px;
+}
+.imgUploadLabel span {
+  text-align: center;
 }
 .imgUploadLabel:hover{
-  background: var(--primary);
+  background: #287094;
   color: white;
 }
 .output{
@@ -52,8 +62,8 @@ body{
 
 /* progress bar styles */
 .progress-bar{
-  height: 5px;
-  background: var(--primary);
+  height: 8px;
+  background: #287094;
   margin-top: 20px;
 }
 

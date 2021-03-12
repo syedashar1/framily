@@ -60,6 +60,7 @@
 
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
 const UploadForm = () => {
   const [file, setFile] = useState(null);
@@ -82,8 +83,8 @@ const UploadForm = () => {
   return (
     <form className='imgUpload' >
       <label className='imgUploadLabel' >
-        <input type="file" onChange={handleChange} ></input>
-        <span>+</span>
+        <input type="file" className="filee" onChange={handleChange} ></input>
+        <CameraAltIcon style={{fontSize:'50px'}}></CameraAltIcon>
       </label>
       <div className="output">
         { error && <div className="error">{ error }</div>}

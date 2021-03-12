@@ -15,6 +15,7 @@ import girl1 from '../avatars/girl.png';
 import girl2 from '../avatars/girl2.png';
 import girl3 from '../avatars/girl3.png';
 import girl4 from '../avatars/girl4.png';
+import colon from '../avatars/colon.png';
 import Bounce from 'react-reveal/Bounce';
 import RubberBand from 'react-reveal/RubberBand';
 
@@ -255,9 +256,16 @@ return (
 
                         {user && user.descriptions && 
                         <div className="form upgap" >
-                                
-                        <div className="card-body">
-                        <h1>{user.descriptions}</h1>
+                        <div><div className='backtotop'>
+                        <RubberBand>
+                        <Image 
+                        src={colon}
+                        fluid></Image>
+                        
+                        </RubberBand>
+                        </div></div>
+                        <div className="card-body text-center">
+                        <h1><i>{user.descriptions}</i></h1>
 
                         <div>
 
