@@ -282,7 +282,7 @@ return (
 
 
                 </div>
-                <FireGram></FireGram>
+                {user && <FireGram></FireGram>}
 
         
         </div>

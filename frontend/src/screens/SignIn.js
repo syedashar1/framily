@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { connect } from "react-redux";
 import { signin , signout } from '../actions/userActions' ;
+import RubberBand from 'react-reveal/RubberBand';
+import { Image } from 'react-bootstrap';
+import welcome from '../avatars/welcome2.png';
  
 class SignIn extends Component {
 
@@ -42,7 +45,14 @@ render() {
                 {/* <button onClick={()=>{console.log(this.props.signinError)} }>click</button> */}
 
                 <form className="form text-center" style={{maxWidth:'360px' , marginTop:100}} onSubmit={this.submitHandler}>
-                <div>
+                <div><div className='backtotop'>
+                        <RubberBand>
+                        <Image 
+                        src={welcome} fluid></Image>
+                        
+                        </RubberBand>
+                        </div></div><div></div><div></div>
+                <div >
                         <h1><b>WELCOME</b></h1>
                 </div>
                 <div>
@@ -56,14 +66,14 @@ render() {
                 </div>
                 <div className='row center'>
                 <label />
-                        <button style={{width:'100px'}} className="primary " type="submit"> Sign In </button>
+                        <button style={{width:'100px' , borderRadius:'20px' ,backgroundColor:'#287094' , color:'white'}} type="submit"> Sign In </button>
                         
                 </div>
                 <div>
                         <label />
-                        <div>New customer?{' '}
+                        <div>New Here ?{' '}
                                 <Link to={`/register?redirect=${redirect}`}>
-                                Create your account
+                                Create your account for Free !
                                 </Link>     
                         </div>
                 </div>

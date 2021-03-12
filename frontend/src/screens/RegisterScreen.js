@@ -5,7 +5,9 @@ import { signin , signout , register } from '../actions/userActions' ;
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container , Row , Col } from 'react-bootstrap';
 import "./input.css"
-
+import RubberBand from 'react-reveal/RubberBand';
+import { Image } from 'react-bootstrap';
+import pen from '../avatars/pen.png';
 class RegisterScreen extends Component {
 
         constructor(){
@@ -237,7 +239,17 @@ render() {
         <div>
 
 
-                <form className="form" onSubmit={this.submitHandler}>
+                <form className="form upgap" onSubmit={this.submitHandler}>
+
+                <div><div className='backtotop'>
+                        <RubberBand>
+                        <Image 
+                        src={pen} fluid></Image>
+                        
+                        </RubberBand>
+                        </div></div>
+
+
                 <div className='text-center'>
                         <h1>Register a New Family</h1>
                         
@@ -480,7 +492,10 @@ render() {
 
                 <label />
                 
-                <div><button className="primary" type="submit"> Sign Up </button></div>
+                <div  className='row center'>
+                        <button style={{ fontSize:'25px' ,width:'180px' , borderRadius:'20px' ,backgroundColor:'#287094' , color:'white'}} type="submit"> Sign Up </button>
+
+                </div>
                         
                 
                 
