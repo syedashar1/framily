@@ -35,14 +35,7 @@ const ImageGrid = ({ setSelectedImg }) => {
                 }
               }, [dispatch , docs ]);
 
-        
-
-
-        
-
-        
-
-
+      
         
 
   return (

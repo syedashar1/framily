@@ -189,7 +189,7 @@ class UpdateUserScreen extends Component {
 
 
                 if (this.props.success) { this.props.history.push('/profile') }
-
+                if (!this.props.userInfo) { this.props.history.push('/') }
 
                 return (
                         <div>

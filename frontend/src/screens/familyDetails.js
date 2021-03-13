@@ -45,7 +45,7 @@ class familyDetails extends Component {
         render() {
 
                 const {user , userInfo , likeSuccess , } = this.props
-
+                if (!this.props.userInfo) { this.props.history.push('/') }
 
                 return (
                         <div>
