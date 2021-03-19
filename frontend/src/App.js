@@ -45,7 +45,7 @@ class App extends React.Component {
                 <Route path="/chat" component={ChatApp}></Route>
                 <Route path="/update" component={UpdateUserScreen}></Route>
                 <Route 
-                path="/filter/interestsdescription/:interestsdescription/min/:min/max/:max/ethinicity/:ethinicity"
+                path="/filter/interestsdescription/:interestsdescription/min/:min/max/:max/ethinicity/:ethinicity/order/:order"
                 component={HomeScreen} exact
                 ></Route>
 

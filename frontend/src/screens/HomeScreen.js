@@ -41,7 +41,7 @@ class HomeScreen extends Component {
 
         componentDidMount(){
 
-                const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
+                const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 , order  = 'mix' } = this.props.match.params;
 
 
                 console.log('comppnent did mounted');
@@ -50,7 +50,7 @@ class HomeScreen extends Component {
 
 
                 
-                this.props.listUsers({interestsdescription , ethinicity , min , max })
+                this.props.listUsers({interestsdescription , ethinicity , min , max , order })
                 
 
 
@@ -94,12 +94,14 @@ class HomeScreen extends Component {
 
         getFilterUrl = (filter) => {
                 console.log(filter);
-                const { interestsdescription = 'all', min = 0, ethinicity = 'all', max = 100 } = this.props.match.params;
+                const { interestsdescription = 'all', min = 0, ethinicity = 'all', max = 100 , order = 'mix'} = this.props.match.params;
                 const interestsdescriptionFilter = interestsdescription;
                 const ethinicityFilter = filter.ethinicity || ethinicity;
                 const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
                 const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-                return `/filter/interestsdescription/${interestsdescriptionFilter}/min/${filterMin}/max/${filterMax}/ethinicity/${ethinicityFilter}`;
+                const sortOrder = filter.order || order;
+
+                return `/filter/interestsdescription/${interestsdescriptionFilter}/min/${filterMin}/max/${filterMax}/ethinicity/${ethinicityFilter}/order/${sortOrder}`;
               
             };
 
@@ -134,7 +136,7 @@ class HomeScreen extends Component {
         submitHandler = (e) => {
                 e.preventDefault();
                 console.log(this.state.name);
-                this.props.history.push(`/filter/interestsdescription/${this.state.name === "" ? "all" : this.state.name }/min/${0}/max/${100}/ethinicity/${'all'}`);
+                this.props.history.push(`/filter/interestsdescription/${this.state.name === "" ? "all" : this.state.name }/min/${0}/max/${100}/ethinicity/${'all'}/order/${'mix'}`);
 
                 
                 // console.log(`/search/name/${this.state.name}`);
@@ -164,6 +166,12 @@ class HomeScreen extends Component {
                         { name: 'Arab' },
                 ]
 
+                const orderList = [
+                        {name:'mix'} ,
+                        {name:'shortest'} ,
+
+                ]
+
 
                 if(this.props.match.params != this.state.currentUrl && this.props.families  ){
 
@@ -178,7 +186,7 @@ class HomeScreen extends Component {
                 const {loading , families , userInfo , likeLoading , likeSuccess , likeError , likeLoadingID , user }  = this.props
                 const {listofLiked , render} = this.state
 
-                const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 } = this.props.match.params;
+                const { interestsdescription = 'all',  ethinicity = 'all', min = 0, max = 100 , order = 'mix' } = this.props.match.params;
                 
                 // const shuffled = shuffleArray(this.props.families)
 
@@ -246,6 +254,28 @@ class HomeScreen extends Component {
                                 </ul></Card.Body>
     </Accordion.Collapse>
   </Card>
+  {/* <Card>
+    <Card.Header>
+      <Accordion.Toggle as={Button} variant="" eventKey="3">
+      <p>Distance</p>
+      </Accordion.Toggle>
+    </Card.Header>
+    <Accordion.Collapse eventKey="3">
+      <Card.Body>
+                                <ul>
+                                {orderList.map((r) => (
+                                        <li key={r.name}>
+                                        <Link to={this.getFilterUrl({ order : r.name })}
+                                        className={`${r.name}` === `${order}` ? 'active' : ''}
+                                        >
+                                                {r.name}
+                                                
+                                        </Link>
+                                        </li>
+                                ))}
+                                </ul></Card.Body>
+    </Accordion.Collapse>
+  </Card> */}
 </Accordion>
                           </div>
                           <div>
@@ -342,14 +372,25 @@ class HomeScreen extends Component {
                                 
                                 }
 
+                                {x.descriptions && x.descriptions !== '' &&
+                                
+                                <Fade up cascade>
+                                <div>
+                                <h2 className='text-center'> 
+                                        <span><i style={{fontSize:'25px' , color:'#287094'}}>"{x.descriptions}"</i></span>
+                                </h2>
+                                </div>
+                                </Fade>
+                                
+                                }
+
+
 
                                 {x.location && x.location.latitude 
                                 && this.props.user.location 
                                 && this.props.user.location.latitude 
-                                && <div className='row' >
-                                <h1>Distance : {this.distance(x.location.latitude , x.location.longitude)} meters </h1>
-
-                                </div>
+                                && 
+                                <h2><span><b>Distance</b></span>  : {this.distance(x.location.latitude , x.location.longitude)} meters </h2>
                                 }                
 
 
@@ -360,10 +401,7 @@ class HomeScreen extends Component {
                                 
                                 <div className='text-center' >
                                 
-                                <Link to={`/families/${x._id}`} >
-                                <Button variant="outline-light" style={{backgroundColor:'#287094', color:'white' , marginTop:'20px'}} size='lg'> 
-                                <h3>View Family<ArrowForwardIosIcon/> </h3> </Button>{' '}
-                                </Link>
+                                
                                 
                                 {userInfo && 
                                 <p onClick ={() => this.likeHandler( x._id) } style={{marginTop:'20px'}}  >
@@ -384,9 +422,15 @@ class HomeScreen extends Component {
                                 </p>
                                 
                                 }
+
+                                
                                 
 
                                 </div>
+                                {/* <Link to={`/families/${x._id}`} style={{textAlign:'right'}} >
+                                <Button variant="outline-light" style={{backgroundColor:'#287094', color:'white' , marginTop:'20px' }} size='sm'> 
+                                <h3  >View Family<ArrowForwardIosIcon/> </h3> </Button>
+                                </Link> */}
                                 
                                 </Col>
 
@@ -394,8 +438,10 @@ class HomeScreen extends Component {
                                 
                                 <Col md={{span : 6 }} style={{paddingLeft : '20px' , overflow : 'hidden'}}>
                                 <div >
-                                <Fade left={(i % 2 == 0) ? true : false} right={(i % 2 == 0) ? false : true}  cascade>
-                                <img src={x.image1  ? x.image1 : no } className='img-fluid center text-center' ></img>
+                                <Fade left={(i % 2 == 0) ? true : false} right={(i % 2 == 0) ? false : true}  cascade >
+                                <img src={x.image1  ? x.image1 : no }  className='img-fluid center text-center' style={{cursor:'pointer'}}
+                                onClick={ () => {this.props.history.push(`/families/${x._id}`)} }
+                                ></img>
                                 </Fade>
                                 </div>
                                 </Col>

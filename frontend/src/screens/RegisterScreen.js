@@ -281,7 +281,7 @@ render() {
 
                 
 
-                <Col className="text-center lineright">
+                <Col className="text-center lineright" sm={6} >
                         <h1>Parent 1</h1>
                 
                 <div >
@@ -309,7 +309,7 @@ render() {
                 </Col>
 
 
-                <Col className="text-center">
+                <Col className="text-center"  sm={6}>
                         <h1>Parent 2</h1>
                 
                 <div>
@@ -343,7 +343,7 @@ render() {
 
                 <Container >
                <Row>
-               <Col className="text-center lineright">
+               <Col className="text-center lineright"  sm={6}>
                         <h1>Child 1</h1>
                 
                 <div>
@@ -373,7 +373,7 @@ render() {
 
 
 
-                <Col className="text-center">
+                <Col className="text-center" sm={6}>
                         <h1>Child 2</h1>
                 
                 <div>
@@ -408,7 +408,7 @@ render() {
 
                <Container>
                <Row>
-               <Col className="text-center lineright">
+               <Col className="text-center lineright" sm={6}>
                         <h1>Child 3</h1>
                 
                 <div>
@@ -438,7 +438,7 @@ render() {
 
 
 
-                <Col className="text-center">
+                <Col className="text-center" sm={6}>
                         <h1>Child 4</h1>
                 
                 <div>
