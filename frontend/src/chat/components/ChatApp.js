@@ -55,6 +55,8 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
+
+    localStorage.removeItem('whatsapp-clone-conversations');
     this.props.avaliableForChat()
 
 

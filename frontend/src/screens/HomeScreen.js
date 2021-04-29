@@ -70,7 +70,6 @@ class HomeScreen extends Component {
 
 
 
-
         }
 
 
@@ -88,6 +87,14 @@ class HomeScreen extends Component {
                 
                 return x
         }
+
+
+
+
+        handleScroll = () => {
+                console.log("scrollig")
+        }
+
 
 
 
@@ -173,6 +180,9 @@ class HomeScreen extends Component {
                 ]
 
 
+                
+
+
                 if(this.props.match.params != this.state.currentUrl && this.props.families  ){
 
                         console.log('hereeeee');
@@ -192,9 +202,10 @@ class HomeScreen extends Component {
 
                 return (
                         
-                        <div >
+                        <div onScroll={()=>console.log('hey its scrolling')}
+                        >
                                 
-                          <div className='row' >
+                          <div className='row'>
                           <div></div>
         
                           <Accordion>
@@ -297,7 +308,11 @@ class HomeScreen extends Component {
                 
                         {!families || !user  ? (<div className='cm-spinner' ></div>) : 
                         
-                        <Container>
+                        <Container > 
+                        
+                        
+                
+                        
                                 
                                 {families.map((x , i) => (
                                 
@@ -309,7 +324,7 @@ class HomeScreen extends Component {
 
                                 <Col lg={{span : 8 , order : (i % 2 == 0) ? 0 : 12 }} >
                                       
-                        <div key={x._id} className="form" style={{minWidth:300 , maxWidth:'750px' ,paddingRight:'20px',borderRadius:'7px' }} >
+                        <div key={x._id} className="form" style={{minWidth:300 , maxWidth:'770px' ,paddingRight:'20px',borderRadius:'7px' }} >
                                 
                                 
                                 <Container>
@@ -464,6 +479,7 @@ class HomeScreen extends Component {
                                 
 
                                 </Row> </Fade>  )  ) }
+                                
                                 
                                 
                         </Container> }

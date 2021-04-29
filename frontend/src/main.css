@@ -4,7 +4,6 @@ html {
 }
 body {
   margin: 0;
-  height: 100vh;
   font-size: 1.6rem;
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -13,6 +12,7 @@ body {
 }
 #root {
   background-color: rgb(248, 249, 250);
+  
   height: 100%;
 }
 
@@ -27,6 +27,7 @@ body {
   grid-template-rows: 5rem 1fr 5rem;
   height: 100%;
   overflow-x: hidden;
+  min-height: 100vh;
   
 }
 header {
@@ -554,3 +555,10 @@ main {
         transform: rotate(360deg);
     }
 }
+
+
+.infinite-scroll-component{
+  padding: 15px;
+  overflow: visible;
+}
+

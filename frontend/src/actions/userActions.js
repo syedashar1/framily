@@ -171,13 +171,6 @@ export const updateUserProfileReset = () => (dispatch) => {
 export const signout = () => async (dispatch , getState) => {
 
   const userInfo = getState().userSignin.userInfo
-  if (localStorage.getItem('whatsapp-clone-conversations')) {
-    const conversation =  JSON.parse(localStorage.getItem('whatsapp-clone-conversations'))
-  
-  const { data } = await Axios.put(`/api/users/saveAll/${userInfo._id}` , conversation );
-  console.log(data);
-  
-  }
   localStorage.clear();
   dispatch({ type: USER_SIGNOUT });
 };

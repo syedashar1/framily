@@ -389,6 +389,23 @@ familyRouter.post( '/signin', expressAsyncHandler(async (req, res) => {
 
 
 
+familyRouter.get( '/temp', expressAsyncHandler(async (req, res) => {
+  
+  
+  const pageSize = 5 ;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const families = await Family.find({}).skip(pageSize * (page - 1)).limit(pageSize)
+  if (families) {
+    res.send(families)
+    }
+  res.status(401).send({ message: 'Invalid email or password' });
+})
+);
+
+
+
+
 
 familyRouter.get( '/' , expressAsyncHandler(async (req, res) => {
         // console.log("getting users ");
@@ -629,44 +646,50 @@ familyRouter.put( '/update/:id' , expressAsyncHandler(async (req, res) => {
 
 familyRouter.put( '/msgtosend/:id' , expressAsyncHandler(async (req, res) => {
         
-        console.log('see meeeee');
-        console.log(req.body)
-        console.log(req.params.id);
+  console.log('see meeeee');
+  console.log(req.body)
+  console.log(req.params.id);
 
 
-        const user = await Family.findById(req.body.recipients[0]);
+  //user req.params.id
+  //other user.conversations[i].recipients[0]
 
 
-        
+  const user = await Family.findById(req.body.recipients[0]);
+  const user2 = await Family.findById(req.params.id);
 
 
 
-        for(var i = 0 ; i < user.conversations.length ; i++ ){
-          console.log(i);
-          console.log(user.conversations[i].recipients[0]);
-          if (user.conversations[i].recipients[0] === req.params.id ) {
-            console.log('found it !  at' , i );
-            break
-          }
+  for(var i = 0 ; i < user.conversations.length ; i++ ){
+    console.log(i);
+    console.log(user.conversations[i].recipients[0]);
+    if (user.conversations[i].recipients[0] === req.params.id ) {
+      console.log('found it !  at' , i );
+      break
+    }
+  }
+  if (user) {
+     user.conversations[i].messages.push({sender : req.params.id , text : req.body.text })
+      await user.save()
+      }
+
+     
+
+      for(var i = 0 ; i < user2.conversations.length ; i++ ){
+        console.log(user2.conversations[i].recipients[0]);
+        if (user2.conversations[i].recipients[0] === req.body.recipients[0] ) {
+          console.log('found it !  for user 2' , i );
+          console.log(user2.conversations[i].messages);
+          break
         }
-        if (user) {
-           user.conversations[i].messages.push({sender : req.params.id , text : req.body.text })
-            await user.save()
+      }
+      if (user) {
+         user2.conversations[i].messages.push({sender : req.params.id , text : req.body.text })
+          await user2.save()
+          }  
 
-                }
-
-       
-
-
-
-
-
-// 60375f8badaaf11aa0bf5ca8
-
-
-
-      })
-); 
+})
+);
 
 
 familyRouter.post('/register' , expressAsyncHandler( async (req , res) => {
